@@ -8,7 +8,7 @@
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
-        <Style TargetType="TabControl">
+        <Style x:Key="DefaultTabControl" TargetType="TabControl">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="Margin" Value="10"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
@@ -22,7 +22,7 @@
             <Setter Property="Background" Value="#FFE5E5E5"/>
         </Style>
 
-        <Style x:Key="MainImages" TargetType="Image">
+        <Style x:Key="MainImage" TargetType="Image">
             <Setter Property="Margin" Value="10"/>
             <Setter Property="RenderOptions.BitmapScalingMode" Value="NearestNeighbor"/>
         </Style>
@@ -43,11 +43,11 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
         <Style x:Key="h1" TargetType="{x:Type Control}" BasedOn="{StaticResource title}">
-            <Setter Property="FontSize" Value="48"/>
+            <Setter Property="FontSize" Value="20"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
         <Style x:Key="h2" TargetType="{x:Type Control}" BasedOn="{StaticResource h1}">
-            <Setter Property="FontSize" Value="36"/>
+            <Setter Property="FontSize" Value="18"/>
         </Style>
         <Style x:Key="paragraph" TargetType="{x:Type Control}" BasedOn="{StaticResource h2}">
             <Setter Property="FontSize" Value="24"/>
