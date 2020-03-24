@@ -104,6 +104,7 @@ namespace tMLH2
         {
             string name = (sender as Button).Name;
             int index = int.Parse(Regex.Replace(name, "[^0-9]", ""));
+            LayeredImage.SelectedIndex = index - 1;
 
             for (int i = 0; i < LayersStackPanel.Children.Count; i++)
             {

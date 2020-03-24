@@ -15,7 +15,13 @@ namespace tMLH2
     {
         private System.Windows.Controls.Image ImageControl;
 
-        public static int SelectedIndex = -1;
+        public int SelectedIndex = -1;
+
+        /// <summary>
+        /// The selected BitmapLayer, determined using SelectedIndex.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public BitmapLayer SelectedBitmapLayer { get => BitmapLayers[SelectedIndex]; }
 
         /// <summary>
         /// Represents the base image for this ImageLayer

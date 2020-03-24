@@ -81,5 +81,12 @@ namespace tMLH2
             }
             catch (NullReferenceException) { return; }
         }
+
+        private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            //Test
+            System.Windows.Media.Color tempColor = (System.Windows.Media.Color)ColorPicker.SelectedColor;
+            BrushColor = System.Drawing.Color.FromArgb(tempColor.A, tempColor.R, tempColor.G, tempColor.B);
+        }
     }
 }
