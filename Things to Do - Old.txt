@@ -1,0 +1,67 @@
+Wait for file to finish being written to:
+    https://stackoverflow.com/questions/1406808/wait-for-file-to-be-freed-by-process/1406853#1406853
+
+Push to tModLoader website.
+
+BaseUri may be useful for determining URIs of images.
+    https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.image.baseuri?view=netframework-4.8#System_Windows_Controls_Image_BaseUri
+
+Compare file size and altered time in readonly mode. Update images then, with
+thread-safe image source updating.
+
+Thread-safe image source updating:
+    https://stackoverflow.com/questions/45893536/updating-image-source-from-a-separate-thread-in-wpf
+    https://social.msdn.microsoft.com/Forums/vstudio/en-US/0260569e-1112-496c-a2af-323b3d73132b/loading-image-in-a-different-thread?forum=wpf
+        DON'T USE ASYNC
+        Freeze BitmapImage or ImageSource first.
+        Check if some try statements are causing this error.
+        Check if image is actually being updated.
+
+Open image without locking it:
+    http://www.vbforums.com/showthread.php?830751-Fastest-way-to-load-an-image-from-a-file-without-locking-it
+    try first -> https://stackoverflow.com/questions/3448230/how-can-i-read-a-text-file-without-locking-it
+
+Last Modified Time
+    https://stackoverflow.com/questions/3360324/check-last-modified-date-of-file-in-c-sharp
+        https://docs.microsoft.com/en-us/dotnet/api/system.io.file?view=netframework-4.8
+
+File Length
+    https://docs.microsoft.com/en-us/dotnet/api/system.io.filestream.length?view=netframework-4.8
+
+Prevent lock with StreamReader
+    https://stackoverflow.com/questions/1606349/can-i-prevent-a-streamreader-from-locking-a-text-file-whilst-it-is-in-use
+
+Create a layers panel that has all of the layers.
+
+Test the FileSystemWatcher. Can move to BitmapLayer class if desirable
+(probaly smarter choice).
+
+If there is a read function in FileSystemWatcher, change it to silently read
+the file.
+
+LayeredImage should not inherit Image.
+
+More info on layering images:
+    https://stackoverflow.com/questions/13068065/how-do-i-overlay-an-image-in-net
+    https://chrisbitting.com/2013/11/08/overlaying-compositing-images-using-c-system-drawing/
+    http://csharphelper.com/blog/2016/11/overlay-images-in-c/
+
+Zoom and Pan:
+    https://stackoverflow.com/questions/741956/pan-zoom-image
+
+Call the LayeredImage contructor when the canvas is loaded
+
+Replace the canvas with an image.
+
+Test ImageHandler.SilentlyReadBitmap and see if it functions.
+
+Remove some classes and files that are uneeded.
+
+Crop Image:
+    https://stackoverflow.com/questions/734930/how-to-crop-an-image-using-c
+
+Use btn style for panebuttons in MainWindow.xaml
+
+At first, there will be only one layer that the user can use. Add a layer panel in the future.
+
+Phase out the Upload Options

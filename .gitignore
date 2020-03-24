@@ -1,0 +1,12 @@
+packages/
+.vs/
+obj/
+bin/
+*.lnk
+*.sln
+Thumbs.db
+*.csproj
+*.csproj.user
+*.config
+*.xcf
+Testing/
