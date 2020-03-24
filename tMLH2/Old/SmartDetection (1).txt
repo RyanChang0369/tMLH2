@@ -1,0 +1,175 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
+
+namespace tMLH2
+{
+    public static class SmartDetection
+    {
+        /// <summary>
+        /// Tries to detect the type of object from its file and directory name.
+        /// </summary>
+        /// <returns>A type from the ItemType enum.</returns>
+        public static int DetectType(string fullPath, BitmapImage bmpImg)
+        {
+            int selectedOption;
+
+            string fileName = Path.GetFileName(fullPath);
+            string beforeUnderscore;
+            string afterUnderscore;
+
+            string directoryName = Path.GetDirectoryName(fullPath);
+            string localFolderName = directoryName.Substring(directoryName.LastIndexOf("\\") + 1);
+
+            if (fileName.Contains('_') && fileName.LastIndexOf('_') != fileName.Length)
+            {
+                afterUnderscore = fileName.Substring(fileName.LastIndexOf("_") + 1,
+                    fileName.LastIndexOf('.') - (fileName.LastIndexOf("_") + 1));
+                beforeUnderscore = fileName.Substring(0, fileName.LastIndexOf("_"));
+                
+                try
+                {
+                    // Try to get ItemType from C# file associated with the image.
+                    selectedOption = DetectByCSFile(directoryName + "\\" + beforeUnderscore + ".cs");
+                    if (selectedOption > 0)
+                        return selectedOption;
+                    
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+
+                // Try to get item type from name of image
+                switch (afterUnderscore)
+                {
+                    case ("Head"):
+                        return (int)MainWindow.ItemType.Head;
+                    case ("Arms"):
+                        return (int)MainWindow.ItemType.Arms;
+                    case ("Body"):
+                        return (int)MainWindow.ItemType.Body;
+                    case ("FemaleBody"):
+                        return (int)MainWindow.ItemType.FemaleBody;
+                    case ("Legs"):
+                        return (int)MainWindow.ItemType.Legs;
+                }
+            }
+            
+
+            // Try to get item type from the dimensions of the image
+            if (bmpImg.PixelHeight == 1120)
+                return (int)MainWindow.ItemType.Armor;
+
+
+            return -1;
+        }
+
+        private static int DetectByCSFile(string fileName)
+        {
+            return DetectByMethodNames(FileMethods.SilentlyReadAllLines(fileName));
+        }
+
+        private static int DetectByMethodNames(string fileContents)
+        {
+            fileContents = RemoveComments(fileContents);
+            // Find Armor Methods
+            if (fileContents.Contains("[AutoloadEquip(EquipType.Head)]"))
+                return (int)MainWindow.ItemType.Head;
+            else if (fileContents.Contains("[AutoloadEquip(EquipType.Body)]"))
+                return (int)MainWindow.ItemType.Body;
+            else if (fileContents.Contains("[AutoloadEquip(EquipType.Legs)]"))
+                return (int)MainWindow.ItemType.Legs;
+
+            // Find Accessory Methods
+            else if (fileContents.Contains("public override void UpdateAccessory"))
+                return (int)MainWindow.ItemType.Accessory;
+
+            else
+                return -1;
+        }
+
+        private static string RemoveComments(string fileContents)
+        {
+            while (fileContents.Contains("/*") && fileContents.Contains("*/"))
+            {
+                fileContents = fileContents.Substring(fileContents.IndexOf("/*"), fileContents.IndexOf("*/"));
+            }
+
+            string[] lines = fileContents.Split('\n');
+            string newFileContents = "";
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                if (line.Contains("//"))
+                    line = line.Substring(line.IndexOf("//"));
+
+                newFileContents = newFileContents + line + "\r\n";
+            }
+
+            return newFileContents;
+        }
+
+
+        public static int DetectHeight(string fullPath)
+        {
+            string fileName = Path.GetFileName(fullPath);
+            string beforeUnderscore;
+
+            string directoryName = Path.GetDirectoryName(fullPath);
+
+            string fileContents = "";
+
+            // Initializes fileContents
+            try
+            {
+                if (fileName.Contains('_') && fileName.LastIndexOf('_') != fileName.Length)
+                {
+                    beforeUnderscore = fileName.Substring(0, fileName.LastIndexOf("_"));
+
+                    try
+                    {
+                        fileContents = FileMethods.SilentlyReadAllLines(directoryName + "\\" + beforeUnderscore + ".cs");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        return -1;
+                    }
+                }
+            }
+            catch (ArgumentNullException)
+            {
+
+            }
+ 
+            string[] lines = fileContents.Split('\n');
+            string lineWithHeight = "";
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                if (line.Contains("height"))
+                {
+                    lineWithHeight = line;
+                    break;
+                }
+            }
+
+            try
+            {
+                return Int32.Parse(Regex.Replace(lineWithHeight, "[^0-9]", ""));
+            }
+            catch (FormatException)
+            {
+                return -1;
+            }
+        }
+    }
+}

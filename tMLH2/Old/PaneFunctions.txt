@@ -1,0 +1,34 @@
+﻿using System.Windows;
+using System.Windows.Media.Imaging;
+
+namespace tMLH2
+{
+    public partial class MainWindow : Window
+    {
+        public void RefreshPane()
+        {
+            
+        }
+        
+        private void TogglePaneButtons(int frames, int currentFrame, BitmapImage bmpImg, int maxPixelHeight)
+        {
+            int height = bmpImg.PixelHeight;
+            if (currentFrame == 0)
+            {
+                PrevPaneButton.IsEnabled = false;
+            }
+            else
+            {
+                PrevPaneButton.IsEnabled = true;
+            }
+            if (currentFrame * frames >= maxPixelHeight)
+            {
+                NextPaneButton.IsEnabled = false;
+            }
+            else
+            {
+                NextPaneButton.IsEnabled = true;
+            }
+        }
+    }
+}

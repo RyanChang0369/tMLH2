@@ -1,0 +1,69 @@
+﻿using System.Windows;
+using System.Windows.Media.Imaging;
+using System;
+using System.Windows.Controls;
+using System.IO;
+
+namespace tMLH2
+{
+    public partial class MainWindow : Window
+    {
+        private FileSystemWatcher watcher = new FileSystemWatcher();
+
+        public Image ForceOverlayRefresh(CroppedBitmap croppedBitmap)
+        {
+            ImageOverlay.Source = null;
+            ImageOverlay.Source = PanedImageOverlay.CroppedBitmap;
+            return ImageOverlay;
+        }
+
+        //[PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public void CheckForSourceUpdate(string fullPath)
+        {
+            // Create a new FileSystemWatcher and set its properties.
+            Console.WriteLine("PanedImage (1): fullPath: " + fullPath);
+            watcher.Path = Path.GetDirectoryName(fullPath);
+            watcher.Filter = Path.GetFileName(fullPath);
+
+            // Add event handlers.
+            watcher.Changed += SourceChanged;
+            watcher.Created += SourceChanged;
+            watcher.Deleted += SourceDeleted;
+            watcher.Renamed += SourceRenamed;
+            watcher.Error += SourceError;
+
+            // Begin watching.
+
+            watcher.EnableRaisingEvents = true;
+
+            Console.WriteLine("PanedImage (2): watcher loaded!");
+        }
+
+        private void SourceChanged(object sender, FileSystemEventArgs e)
+        {
+            watcher.EnableRaisingEvents = false;
+            while (!FileDialog.IsFileReady(e.FullPath)) { }
+
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                ImageUnderlay.Source = new BitmapImage(new Uri(e.FullPath, UriKind.Absolute));
+            });
+            watcher.EnableRaisingEvents = true;
+        }
+
+        private void SourceDeleted(object sender, FileSystemEventArgs e)
+        {
+            ImageUnderlay.Source = (Properties.Resources.blank).ToBitmapImage();
+        }
+
+        private void SourceRenamed(object sender, RenamedEventArgs e)
+        {
+            ImageUnderlay.Source = (new BitmapImage(new Uri(e.FullPath, UriKind.Absolute)));
+        }
+
+        private void SourceError(object sender, ErrorEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

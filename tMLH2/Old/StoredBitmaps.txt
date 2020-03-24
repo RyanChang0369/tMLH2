@@ -1,0 +1,120 @@
+﻿using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+
+namespace tMLH2
+{
+    public static class StoredBitmaps
+    {
+        public static BitmapImage playerM = new BitmapImage(new Uri("assets/playerMale.png", UriKind.Relative));
+        public static BitmapImage[] playerMParts;
+        public static void Init()
+        {
+            int stride = playerM.PixelWidth * (playerM.Format.BitsPerPixel / 8);
+            int height = playerM.PixelHeight;
+            byte[] imgData = BMPSourceToArr(playerM);
+
+            Console.WriteLine(stride + " / " + height);
+            Console.WriteLine(stride * height);
+            Console.WriteLine(imgData.Length);
+
+            byte[,] pixels = new byte[stride, height];
+            int count = 0;
+            for (int r = 0; r < stride; r++)
+            {
+                for (int c = 0; c < height; c++)
+                {
+                    pixels[r, c] = imgData[count];
+                    count++;
+                }
+            }
+
+            SplitImg2(20, 0, playerM);  
+        }
+
+        public static BitmapImage SplitImg(int frames, int startFrame, byte [,] pixels)
+        {
+            BitmapImage img = new BitmapImage();
+
+            int stride = pixels.GetUpperBound(0) + 1;
+            int height = pixels.GetUpperBound(1) + 1;
+
+            Console.WriteLine("Stride: " + stride);
+
+            if (height % frames != 0)
+                throw new ArgumentException("The provided image height does not divide evenly with the provided number of frames.", "height");
+
+            int frameHeight = height / frames;
+
+            bool[] splitImgBool = new bool[height];
+
+            int count = 0;
+
+            for (int r = startFrame * frameHeight; r < stride; r++)
+            {
+                for (int c = 0; c < height; c++)
+                {
+                    count++;
+                    
+                }
+            }
+            Console.WriteLine(count);
+            return img;
+        }
+
+        public static BitmapImage SplitImg2(int frames, int startFrame, BitmapImage bmp)
+        {
+            int height = (int) bmp.Height;
+            int width = (int) bmp.Width;
+
+            Console.WriteLine("Width: " + bmp.Width);
+            Console.WriteLine("Height: " + bmp.Height);
+
+            if (height % frames != 0.0)
+                throw new ArgumentException("The provided image height does not divide evenly with the provided number of frames.", "height");
+
+            int frameHeight = height / frames;
+
+            int count = 0;
+
+            byte[,] pixels = new byte[width, height];
+            byte[] imgData = BMPSourceToArr(playerM);
+
+            for (int r = startFrame * frameHeight; r < startFrame * frameHeight + frameHeight; r++)
+            {
+                for (int c = 0; c < width; c++)
+                {
+                    count++;
+                    pixels[r, c] = imgData[count];
+                }
+            }
+
+            Console.WriteLine("Count: " + count);
+
+            return null;
+        }
+
+        private static byte[] BMPSourceToArr(BitmapSource bitmapSource)
+        {
+            int stride = bitmapSource.PixelWidth * (bitmapSource.Format.BitsPerPixel / 8);
+            byte[] pixels = new byte[bitmapSource.PixelHeight * stride];
+
+            bitmapSource.CopyPixels(pixels, stride, 0);
+
+            return pixels;
+        }
+
+        private static BitmapSource ArrToBMPSource(byte[] pixels, int width, int height)
+        {
+            WriteableBitmap bitmap = new WriteableBitmap(width, height, 96, 96, PixelFormats.Bgra32, null);
+
+            bitmap.WritePixels(new Int32Rect(0, 0, width, height), pixels, width * (bitmap.Format.BitsPerPixel / 8), 0);
+
+            return bitmap;
+        }
+    }
+}

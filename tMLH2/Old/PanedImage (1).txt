@@ -1,0 +1,226 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Security.Permissions;
+using System.Text;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+
+namespace tMLH2
+{
+    /// <summary>
+    /// A bitmap image that is divided into 1 or more panes
+    /// </summary>
+    public class PanedImage
+    {
+        /// <summary>
+        /// Total number of frames in this paned image
+        /// </summary>
+        public int Frames;
+
+        /// <summary>
+        /// Current frame of this paned image. This equals x, where 0 &lt;= x &lt;= frames
+        /// </summary>
+        public int CurrentFrame;
+
+        /// <summary>
+        /// The bitmap image
+        /// </summary>
+        public BitmapImage SourceImage;
+
+        /// <summary>
+        /// The cropped bitmap associated with this object
+        /// </summary>
+        public CroppedBitmap CroppedBitmap;
+
+        /// <summary>
+        /// The System.Windows.Controls.Image associated with this object
+        /// </summary>
+        public Image ImageElement;
+
+        /// <summary>
+        /// The button that increments the current pane that is associated with this object
+        /// </summary>
+        public Button NextPaneButton;
+
+        /// <summary>
+        /// The button that decrements the current pane that is associated with this object
+        /// </summary>
+        public Button PreviousPaneButton;
+
+        /// <summary>
+        /// The height/width of the source image in pixels
+        /// </summary>
+        public int ImageWidth, ImageHeight;
+
+        FileSystemWatcher watcher = new FileSystemWatcher();
+
+        /// <summary>
+        /// Creates a paned image object
+        /// </summary>
+        /// <param name="frames">Total number of frames in this paned image</param>
+        /// <param name="startFrame">Current frame of this paned image. This equals x, where 0 &lt;= x &lt;= frames</param>
+        /// <param name="bitmapImage">The bitmap associated with this object</param>
+        /// <param name="imageElement">The System.Windows.Controls.Image associated with this object</param>
+        /// <param name="nextPaneButton">The button that increments the current pane that is associated with this object</param>
+        /// <param name="prevPaneButton">The button that decrements the current pane that is associated with this object</param>
+        /// <param name="watchSource">If true, updates the file when it is changed</param>
+        public PanedImage(int frames, int startFrame, BitmapImage bitmapImage, Image imageElement,
+            Button nextPaneButton, Button prevPaneButton)
+        {
+            Frames = frames;
+            CurrentFrame = startFrame;
+            SourceImage = bitmapImage;
+            ImageElement = imageElement;
+            NextPaneButton = nextPaneButton;
+            PreviousPaneButton = prevPaneButton;
+
+            ImageWidth = SourceImage.PixelWidth;
+            ImageHeight = SourceImage.PixelHeight;
+
+            nextPaneButton.Click += NextPaneButton_Click;
+            prevPaneButton.Click += PrevPaneButton_Click;
+
+            TogglePaneButtons();
+
+            CroppedBitmap = new CroppedBitmap(SourceImage, GetCropRect(frames, CurrentFrame, SourceImage));
+
+            imageElement.Source = CroppedBitmap;
+        }
+
+        public void ChangeSource(System.Drawing.Bitmap bitmap)
+        {
+            ChangeSource(bitmap.ToBitmapImage());
+        }
+
+        public void ChangeSource(BitmapImage bitmapImage)
+        {
+            SourceImage = bitmapImage;
+            CroppedBitmap = new CroppedBitmap(SourceImage, GetCropRect(Frames, CurrentFrame, SourceImage));
+
+            ImageElement.Source = null;
+            ImageElement.Source = CroppedBitmap;
+        }
+
+        //[PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public void CheckForSourceUpdate(string fullPath)
+        {
+            // Create a new FileSystemWatcher and set its properties.
+
+            Console.WriteLine("PanedImage (1): fullPath: " + fullPath);
+            watcher.Path = Path.GetDirectoryName(fullPath);
+            watcher.Filter = Path.GetFileName(fullPath);
+
+            // Add event handlers.
+            watcher.Changed += SourceChanged;
+            watcher.Created += SourceChanged;
+            watcher.Deleted += SourceDeleted;
+            watcher.Renamed += SourceRenamed;
+            watcher.Error += SourceError;
+
+            // Begin watching.
+
+            watcher.EnableRaisingEvents = true;
+                
+            Console.WriteLine("PanedImage (2): watcher loaded!");
+            //Thread.Sleep(55500000);
+        }
+
+        private void SourceChanged(object sender, FileSystemEventArgs e)
+        {
+            while (!FileDialog.IsFileReady(e.FullPath)) {  }
+
+            ChangeSource(new BitmapImage(new Uri(e.FullPath, UriKind.Absolute)));
+        }
+
+        private void SourceDeleted(object sender, FileSystemEventArgs e)
+        {
+            ChangeSource(Properties.Resources.blank);
+        }
+
+        private void SourceRenamed(object sender, RenamedEventArgs e)
+        {
+            ChangeSource(new BitmapImage(new Uri(e.FullPath, UriKind.Absolute)));
+        }
+
+        private void SourceError(object sender, ErrorEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        //Event Handlers
+        private void PrevPaneButton_Click(object sender, RoutedEventArgs e)
+        {
+            DecrementFrame();
+        }
+
+        private void NextPaneButton_Click(object sender, RoutedEventArgs e)
+        {
+            IncrementFrame();
+        }
+
+        //Methods
+        public void IncrementFrame()
+        {
+            if (CurrentFrame < Frames - 1)
+            {
+                CurrentFrame++;
+                TogglePaneButtons();
+
+                CroppedBitmap = new CroppedBitmap(SourceImage, GetCropRect(Frames, CurrentFrame, SourceImage));
+
+                ImageElement.Source = CroppedBitmap;
+            }
+            else
+            {
+                throw new InvalidOperationException("Current Frame cannot be incremented, as it is greater than or equal to the maximum number of frames.");
+            }
+        }
+
+        public void DecrementFrame()
+        {
+            if (CurrentFrame > 0)
+            {
+                CurrentFrame--;
+                TogglePaneButtons();
+
+                CroppedBitmap = new CroppedBitmap(SourceImage, GetCropRect(Frames, CurrentFrame, SourceImage));
+
+                ImageElement.Source = CroppedBitmap;
+            }
+            else
+            {
+                throw new InvalidOperationException("Current Frame cannot be incremented, as it is less than or equal to 0.");
+            }
+        }
+
+        private static Int32Rect GetCropRect(int frames, int startFrame, BitmapImage bmpImg)
+        {
+            return ImageHandler.GetCropRect(frames, startFrame, bmpImg);
+        }
+
+        public void TogglePaneButtons()
+        {
+            if (CurrentFrame == 0)
+            {
+                PreviousPaneButton.IsEnabled = false;
+            }
+            else
+            {
+                PreviousPaneButton.IsEnabled = true;
+            }
+            if (CurrentFrame >= Frames - 1)
+            {
+                NextPaneButton.IsEnabled = false;
+            }
+            else
+            {
+                NextPaneButton.IsEnabled = true;
+            }
+        }
+    }
+}

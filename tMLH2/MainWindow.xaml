@@ -1,0 +1,103 @@
+<Window x:Class="tMLH2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:tMLH2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="1000"
+        SizeChanged="Window_SizeChanged">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <!--<Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" FontSize="24" Height="40" Width="100"/>-->
+            <Button x:Name="UploadButton" Content="Upload" Grid.Column="1" Style="{StaticResource Button}" Click="UploadButton_Click"/>
+        </Grid>
+        <TabControl HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Top">
+            <TabItem Header="Color Options">
+                <StackPanel x:Name="ColorOptionsStackPanel" Style="{StaticResource TabControlStackPanel}">
+                    <RadioButton x:Name="ColorOptions_RadioButton0" IsChecked="True" Checked="CheckColorAndGenderOptions">
+                        <TextBlock>White (Default)</TextBlock>
+                    </RadioButton>
+                    <RadioButton x:Name="ColorOptions_RadioButton1" Checked="CheckColorAndGenderOptions">
+                        <TextBlock>Black</TextBlock>
+                    </RadioButton>
+                    <RadioButton x:Name="ColorOptions_RadioButton2" Checked="CheckColorAndGenderOptions">
+                        <TextBlock>Green</TextBlock>
+                    </RadioButton>
+                    <RadioButton x:Name="ColorOptions_RadioButton3" Checked="CheckColorAndGenderOptions">
+                        <TextBlock>Blue</TextBlock>
+                    </RadioButton>
+                    <RadioButton x:Name="ColorOptions_RadioButton4" Checked="CheckColorAndGenderOptions">
+                        <TextBlock>Red</TextBlock>
+                    </RadioButton>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Other Options">
+                <StackPanel x:Name="GenderOptionsStackPanel" Style="{StaticResource TabControlStackPanel}">
+                    <RadioButton x:Name="GenderOptions_RadioButton10" IsChecked="True" Checked="CheckColorAndGenderOptions">
+                        <TextBlock>Male (Default)</TextBlock>
+                    </RadioButton>
+                    <RadioButton x:Name="GenderOptions_RadioButton20" Checked="CheckColorAndGenderOptions">
+                        <TextBlock>Female</TextBlock>
+                    </RadioButton>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+        <Image x:Name="ImageControl" Grid.Column="1" Style="{StaticResource MainImages}"/>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Button x:Name="PrevPaneButton" Content="&#9664;" Margin="10" VerticalAlignment="Top" FontSize="24" Height="40" ToolTip="Previous Frame" HorizontalContentAlignment="Center"/>
+            <Button x:Name="NextPaneButton" Content="&#9654;" Grid.Column="1" Margin="10" VerticalAlignment="Top" FontSize="24" Height="40" ToolTip="Next Frame"/>
+        </Grid>
+        <TabControl Grid.Column="2">
+            <TabItem Header="Layers">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="LayersStackPanel">
+                        <StackPanel x:Name="LayerTest" Orientation="Horizontal">
+                            <Image Source="pack://siteoforigin:,,,/assets/square.png" Width="50" Height="50" Margin="10"/>
+                            <Label Content="Background" VerticalContentAlignment="Center" Margin="10" Width="150" FontSize="18"/>
+                            <Button Width="20" Height="20" Padding="0">
+                                <Image Source="pack://siteoforigin:,,,/assets/Delete.png" ToolTip="Delete Layer"/>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <!--<TabItem Header="Upload Options">
+                <StackPanel x:Name="UploadOptionsStackPanel" Style="{StaticResource TabControlStackPanel}">
+                    <RadioButton x:Name="UploadWeaponRadio" Checked="UploadWeaponRadio_Checked">
+                        <TextBlock>Upload Weapon or Tool</TextBlock>
+                    </RadioButton>
+                    <RadioButton x:Name="UploadArmorRadio" IsChecked="True" Checked="UploadArmorRadio_Checked">
+                        <TextBlock>Upload Armor</TextBlock>
+                    </RadioButton>
+                </StackPanel>
+            </TabItem>-->
+        </TabControl>
+    </Grid>
+</Window>
