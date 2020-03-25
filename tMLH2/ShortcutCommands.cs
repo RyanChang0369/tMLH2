@@ -18,14 +18,20 @@ namespace tMLH2
 
         public static RoutedCommand Undo = new RoutedCommand();
         public static RoutedCommand Redo = new RoutedCommand();
+        public static RoutedCommand Save = new RoutedCommand();
+        public static RoutedCommand Upload = new RoutedCommand();
 
         private void InitializeShortcuts()
         {
             Undo.InputGestures.Add(new KeyGesture(Key.Z, ModifierKeys.Control));
             Redo.InputGestures.Add(new KeyGesture(Key.Y, ModifierKeys.Control));
+            Save.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control));
+            Upload.InputGestures.Add(new KeyGesture(Key.U, ModifierKeys.Control));
 
             CommandBindings.Add(new CommandBinding(Undo, ExecuteUndo));
             CommandBindings.Add(new CommandBinding(Redo, ExecuteRedo));
+            CommandBindings.Add(new CommandBinding(Save, ExecuteSave));
+            CommandBindings.Add(new CommandBinding(Upload, ExecuteUpload));
         }
 
         private void ExecuteUndo(object sender, ExecutedRoutedEventArgs e)
@@ -74,6 +80,16 @@ namespace tMLH2
             {
                 return;
             }
+        }
+
+        private void ExecuteUpload(object sender, ExecutedRoutedEventArgs e)
+        {
+            UploadButton_Click(null, null);
+        }
+
+        private void ExecuteSave(object sender, ExecutedRoutedEventArgs e)
+        {
+            SaveButton_Click(null, null);
         }
     }
 }
