@@ -37,6 +37,7 @@ namespace tMLH2
             ImageHandler.InitiateImageHandler();
             InitiateImage();
             InitiateLayersStackPanel();
+            InitializeShortcuts();
         }
 
         public void InitiateImage()
