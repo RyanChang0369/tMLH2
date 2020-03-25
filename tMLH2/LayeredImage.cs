@@ -28,6 +28,9 @@ namespace tMLH2
         /// </summary>
         public BitmapLayer[] BaseSourceImages = new BitmapLayer[3];
 
+        public const int FramePixelWidth = 40;
+        public const int FramePixelHeight = 56;
+
         public enum BaseImageIndexes
         {
             PlayerModel, ArmModel, Reserved
