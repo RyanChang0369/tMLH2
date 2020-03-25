@@ -8,7 +8,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="1000"
         SizeChanged="Window_SizeChanged">
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -38,7 +37,7 @@
         </TabControl>
 
         <!--Row 0 Column 1-->
-        <Image x:Name="ImageControl" Grid.Column="1" Style="{StaticResource MainImage}" MouseDown="ImageControl_MouseDown" MouseMove="ImageControl_MouseMove" MouseLeave="ImageControl_MouseLeave"/>
+        <Image x:Name="ImageControl" Grid.Column="1" Style="{StaticResource MainImage}" MouseDown="ImageControl_MouseDown" MouseMove="ImageControl_MouseMove" MouseLeave="ImageControl_MouseLeave" Cursor="Cross"/>
 
         <!--Row 0 Column 2-->
         <TabControl Grid.Column="2" Style="{StaticResource DefaultTabControl}">

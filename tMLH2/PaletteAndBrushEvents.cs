@@ -10,6 +10,7 @@ namespace tMLH2
         int BrushSize = 1;
         Color BrushColor = Color.Black;
         Pen BrushPen { get => new Pen(BrushColor, BrushSize); }
+        SolidBrush SolidBrushBrush { get => new SolidBrush(BrushColor); }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
