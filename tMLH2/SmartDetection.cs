@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -39,38 +40,58 @@ namespace tMLH2
                 beforeUnderscore = imageFileName.Substring(0, imageFileName.LastIndexOf('.'));
                 afterUnderscore = "";
             }
-                try
+            try
+            {
+                string fileContents = RemoveComments(
+                    FileMethods.SilentlyReadAllLines(
+                        directoryName + "\\" + beforeUnderscore + ".cs"));
+
+                // Try to get ItemType from C# file associated with the image.
+                selectedOption = DetectByMethodNames(fileContents, bmpImg.PixelHeight);
+                if (selectedOption > 0)
+                    return selectedOption;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            // Try to get item type from name of image
+            switch (afterUnderscore)
+            {
+                case ("Head"):
+                    return (int)MainWindow.ItemType.Head;
+                case ("Arms"):
+                    return (int)MainWindow.ItemType.Arms;
+                case ("Body"):
+                    return (int)MainWindow.ItemType.Body;
+                case ("FemaleBody"):
+                    return (int)MainWindow.ItemType.FemaleBody;
+                case ("Legs"):
+                    return (int)MainWindow.ItemType.Legs;
+            }
+
+            // Try to get item type from height of image
+            if (bmpImg.PixelHeight == 1120 || bmpImg.PixelHeight == 1118)
+            {
+                MessageBoxResult messageBoxResult = MessageBox.Show("Cannot detect type of item. " +
+                    "Best guess is armor. Press yes if this item is a set of armor and press no if otherwise.",
+                    "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                switch (messageBoxResult)
                 {
-                    string fileContents = RemoveComments(
-                        FileMethods.SilentlyReadAllLines(
-                            directoryName + "\\" + beforeUnderscore + ".cs"));
-
-                    // Try to get ItemType from C# file associated with the image.
-                    selectedOption = DetectByMethodNames(fileContents, bmpImg.PixelHeight);
-                    if (selectedOption > 0)
-                        return selectedOption;
-
-                    // Try to get item type from name of image
+                    case MessageBoxResult.Yes:
+                        return (int)MainWindow.ItemType.Armor;
+                    case MessageBoxResult.No:
+                        return UnableToDetectTypeMessage();
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
+            }
+            return UnableToDetectTypeMessage();
+        }
 
-                switch (afterUnderscore)
-                {
-                    case ("Head"):
-                        return (int)MainWindow.ItemType.Head;
-                    case ("Arms"):
-                        return (int)MainWindow.ItemType.Arms;
-                    case ("Body"):
-                        return (int)MainWindow.ItemType.Body;
-                    case ("FemaleBody"):
-                        return (int)MainWindow.ItemType.FemaleBody;
-                    case ("Legs"):
-                        return (int)MainWindow.ItemType.Legs;
-                }
-
+        private static int UnableToDetectTypeMessage()
+        {
+            MessageBox.Show("Cannot detect type of item. Using default item type.",
+                    "Warning", MessageBoxButton.OK, MessageBoxImage.Error);
             return (int)MainWindow.ItemType.Unknown;
         }
 
@@ -152,7 +173,8 @@ namespace tMLH2
         {
             while (fileContents.Contains("/*") && fileContents.Contains("*/"))
             {
-                fileContents = fileContents.Remove(fileContents.IndexOf("/*"), fileContents.IndexOf("*/") - fileContents.IndexOf("/*") + 2);
+                fileContents = fileContents.Remove(fileContents.IndexOf("/*"),
+                    fileContents.IndexOf("*/") - fileContents.IndexOf("/*") + 2);
             }
 
             fileContents = Regex.Replace(fileContents, "//.*", "");
