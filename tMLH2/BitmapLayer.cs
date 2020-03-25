@@ -11,7 +11,7 @@ namespace tMLH2
     public class BitmapLayer
     {
         /// <summary>
-        /// The BitmapImage that represents this BitmapLayer
+        /// The Bitmap that represents this BitmapLayer
         /// </summary>
         public Bitmap Source;
         
@@ -32,7 +32,20 @@ namespace tMLH2
 
         private LayeredImage ParentLayeredImage;
 
-        public Bitmap CurrentFrame { get => BitmapFrames[ParentLayeredImage.CurrentFrame]; }
+        public Bitmap CurrentFrame
+        {
+            get
+            {
+                try
+                {
+                    return BitmapFrames[ParentLayeredImage.CurrentFrame];
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    return BitmapFrames[0];
+                }
+            }
+        }
         
         private FileSystemWatcher watcher = new FileSystemWatcher();
         
