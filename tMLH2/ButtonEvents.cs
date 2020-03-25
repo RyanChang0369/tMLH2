@@ -8,7 +8,6 @@ namespace tMLH2
         private void UploadButton_Click(object sender, RoutedEventArgs e)
         {
             FileDialog dialog = new FileDialog();
-            Console.WriteLine("ButtonActions.xaml.cs (1): dialog.Path: " + dialog.Path);
 
             if (dialog.Path == null)
                 return;
@@ -16,6 +15,24 @@ namespace tMLH2
             LayeredImage.Push(dialog.Path);
 
             InitiateLayersStackPanel();
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            FileDialog dialog = new FileDialog();
+
+            if (dialog.Path == null)
+                return;
+
+            try
+            {
+                ImageHandler.WriteBitmap(dialog.Path, LayeredImage.SelectedBitmapLayer.Source);
+                MessageBox.Show("Image saved!");
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                
+            }
         }
     }
 }

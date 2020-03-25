@@ -98,6 +98,8 @@ namespace tMLH2
             container.Children.Add(deleteButton);
 
             LayersStackPanel.Children.Add(containerButton);
+
+             SaveButton.IsEnabled = LayersStackPanel.Children.Count > 1;
         }
 
         private void ContainerButton_Click(object sender, RoutedEventArgs e)

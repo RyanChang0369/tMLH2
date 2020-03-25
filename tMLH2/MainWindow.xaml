@@ -25,6 +25,7 @@
             <TabItem Header="Palette">
                 <StackPanel Background="#FFE5E5E5">
                     <xctk:ColorPicker Name="ColorPicker" Width="150" FontSize="14" DisplayColorAndName="True" ShowRecentColors="True" ShowStandardColors="False" SelectedColorChanged="ColorPicker_SelectedColorChanged"/>
+                    <!--<Button Content="Select Color" Style="{DynamicResource Button}" FontSize="18"/>-->
                 </StackPanel>
             </TabItem>
             <TabItem Header="Brushes">
@@ -98,7 +99,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <!--<Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" FontSize="24" Height="40" Width="100"/>-->
+            <Button x:Name="SaveButton" Content="Save" Style="{StaticResource Button}" IsEnabled="False" Click="SaveButton_Click"/>
             <Button x:Name="UploadButton" Content="Upload" Grid.Column="1" Style="{StaticResource Button}" Click="UploadButton_Click"/>
         </Grid>
         

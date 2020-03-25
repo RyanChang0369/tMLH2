@@ -199,6 +199,25 @@ namespace tMLH2
                 return ForceSilentlyReadBitmap(fullPath);
             }
         }
+
+        public static void WriteBitmap(string fullPath, Bitmap bitmap)
+        {
+            try
+            {
+                if (File.Exists(fullPath))
+                {
+                    MessageBoxResult result =MessageBox.Show(fullPath + " exists. Overwrite?",
+                        "File Exists", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                    if (result != MessageBoxResult.Yes)
+                        return;
+                }
+                bitmap.Save(fullPath);
+            }
+            catch (ArgumentNullException)
+            {
+                MessageBox.Show("Please select a file.");
+            }
+        }
         
         public static Bitmap CropBitmap(Bitmap bitmap, Rectangle cropArea)
         {
