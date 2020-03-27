@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:tMLH2"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="1000"
-        SizeChanged="Window_SizeChanged">
+        SizeChanged="Window_SizeChanged" KeyDown="Window_KeyDown">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -24,7 +24,11 @@
         <TabControl Style="{StaticResource DefaultTabControl}">
             <TabItem Header="Palette">
                 <StackPanel Background="#FFE5E5E5">
-                    <xctk:ColorPicker Name="ColorPicker" Width="150" FontSize="14" DisplayColorAndName="True" ShowRecentColors="True" ShowStandardColors="False" SelectedColorChanged="ColorPicker_SelectedColorChanged"/>
+                    <xctk:ColorPicker Name="ColorPicker" Width="150" FontSize="14" DisplayColorAndName="True" ShowRecentColors="True" ShowStandardColors="False" SelectedColorChanged="ColorPicker_SelectedColorChanged" SelectedColor="Black"/>
+                    <StackPanel>
+                        <RadioButton x:Name="SelectPaintRadioBtn" Content="Paint" IsChecked="True" Checked="SelectPaintRadioBtn_Checked"/>
+                        <RadioButton x:Name="SelectEraseRadioBtn" Content="Erase" Checked="SelectEraseRadioBtn_Checked"/>
+                    </StackPanel>
                     <!--<Button Content="Select Color" Style="{DynamicResource Button}" FontSize="18"/>-->
                 </StackPanel>
             </TabItem>

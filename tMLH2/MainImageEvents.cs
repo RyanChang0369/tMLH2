@@ -70,7 +70,11 @@ namespace tMLH2
 
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
-                    g.FillRectangle(SolidBrushBrush, xCentered, yCentered, BrushSize, BrushSize);
+                    g.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+                    if (isPainting)
+                        g.FillRectangle(SolidBrushBrush, xCentered, yCentered, BrushSize, BrushSize);
+                    else
+                        g.FillRectangle(TransparentBrush, xCentered, yCentered, BrushSize, BrushSize);
                 }
 
                 LayeredImage.SelectedBitmapLayer.UpdateSource(bitmap);

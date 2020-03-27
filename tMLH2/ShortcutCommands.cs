@@ -91,5 +91,28 @@ namespace tMLH2
         {
             SaveButton_Click(null, null);
         }
+
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.None && e.Key == Key.P)
+                ExecuteSelectPaint();
+            else if (Keyboard.Modifiers == ModifierKeys.None && e.Key == Key.E)
+                ExecuteSelectErase();
+        }
+
+        private void ExecuteSelectPaint()
+        {
+            SelectPaintRadioBtn.IsChecked = true;
+            SelectEraseRadioBtn.IsChecked = false;
+            SelectPaintRadioBtn_Checked(SelectPaintRadioBtn, null);
+        }
+
+        private void ExecuteSelectErase()
+        {
+            SelectPaintRadioBtn.IsChecked = false;
+            SelectEraseRadioBtn.IsChecked = true;
+            SelectEraseRadioBtn_Checked(SelectEraseRadioBtn, null);
+        }
     }
 }

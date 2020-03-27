@@ -11,6 +11,9 @@ namespace tMLH2
         Color BrushColor = Color.Black;
         Pen BrushPen { get => new Pen(BrushColor, BrushSize); }
         SolidBrush SolidBrushBrush { get => new SolidBrush(BrushColor); }
+        readonly SolidBrush TransparentBrush = new SolidBrush(Color.Transparent);
+
+        bool isPainting = true;
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -19,5 +22,14 @@ namespace tMLH2
             BrushSize = (int)slider.Value;
         }
 
+        private void SelectPaintRadioBtn_Checked(object sender, RoutedEventArgs e)
+        {
+            isPainting = true;
+        }
+
+        private void SelectEraseRadioBtn_Checked(object sender, RoutedEventArgs e)
+        {
+            isPainting = false;
+        }
     }
 }
