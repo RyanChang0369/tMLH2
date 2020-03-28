@@ -1,1 +1,2 @@
 Add method to select color.
+Add multi-select for open file dialog,
