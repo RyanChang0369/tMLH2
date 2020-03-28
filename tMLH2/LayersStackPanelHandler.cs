@@ -86,6 +86,7 @@ namespace tMLH2
                 deleteIcon.Cursor = Cursors.No;
                 containerButton.Background = new SolidColorBrush(Colors.Gray);
                 containerButton.ToolTip = "This layer is locked";
+                deleteIcon.Source = Properties.Resources.DeleteDisabled.ToBitmapImage();
             }
             else
             {

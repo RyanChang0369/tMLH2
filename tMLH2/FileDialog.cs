@@ -7,16 +7,34 @@ namespace tMLH2
 {
     public class FileDialog
     {
+        public enum DialogOptions
+        {
+            Save = 1,
+            Open = 2
+        }
         public string Path { get; set; }
 
-        public FileDialog()
+        public FileDialog(int dialogOption)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Multiselect = false;
-            if (fileDialog.ShowDialog() == true)
+            switch (dialogOption)
             {
-                Path = fileDialog.FileName;
+                case (int)DialogOptions.Open:
+                    OpenFileDialog openFileDialog = new OpenFileDialog();
+                    openFileDialog.Multiselect = false;
+                    if (openFileDialog.ShowDialog() == true)
+                    {
+                        Path = openFileDialog.FileName;
+                    }
+                    break;
+                case (int)DialogOptions.Save:
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    if (saveFileDialog.ShowDialog() == true)
+                    {
+                        Path = saveFileDialog.FileName;
+                    }
+                    break;
             }
+            
         }
 
         public static bool IsFileReady(string filename)

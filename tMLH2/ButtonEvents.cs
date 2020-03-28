@@ -7,7 +7,7 @@ namespace tMLH2
     {
         private void UploadButton_Click(object sender, RoutedEventArgs e)
         {
-            FileDialog dialog = new FileDialog();
+            FileDialog dialog = new FileDialog((int)FileDialog.DialogOptions.Open);
 
             if (dialog.Path == null)
                 return;
@@ -19,7 +19,7 @@ namespace tMLH2
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            FileDialog dialog = new FileDialog();
+            FileDialog dialog = new FileDialog((int)FileDialog.DialogOptions.Save);
 
             if (dialog.Path == null)
                 return;
