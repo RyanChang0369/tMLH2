@@ -245,5 +245,23 @@ namespace tMLH2
 
             return underlay;
         }
+
+        /// <summary>
+        /// Returns a System.Windows.Media.Color that represents the System.Drawing.Color
+        /// </summary>
+        /// <param name="color"></param>
+        public static System.Windows.Media.Color ToMediaColor(this System.Drawing.Color color)
+        {
+            return System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
+        }
+
+        /// <summary>
+        /// Returns a System.Drawing.Color that represents the System.Windows.Media.Color
+        /// </summary>
+        /// <param name="color"></param>
+        public static System.Drawing.Color ToDrawingColor(this System.Windows.Media.Color color)
+        {
+            return System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
+        }
     }
 }

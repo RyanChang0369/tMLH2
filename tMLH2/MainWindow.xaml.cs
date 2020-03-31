@@ -87,7 +87,7 @@ namespace tMLH2
         {
             //Test
             System.Windows.Media.Color tempColor = (System.Windows.Media.Color)ColorPicker.SelectedColor;
-            BrushColor = System.Drawing.Color.FromArgb(tempColor.A, tempColor.R, tempColor.G, tempColor.B);
+            BrushColor = tempColor.ToDrawingColor();
         }
     }
 }
