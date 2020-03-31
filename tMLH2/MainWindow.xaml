@@ -26,10 +26,10 @@
                 <StackPanel Background="#FFE5E5E5">
                     <xctk:ColorPicker Name="ColorPicker" Width="150" FontSize="14" DisplayColorAndName="True" ShowRecentColors="True" ShowStandardColors="False" SelectedColorChanged="ColorPicker_SelectedColorChanged" SelectedColor="Black"/>
                     <StackPanel>
-                        <RadioButton x:Name="SelectPaintRadioBtn" Content="Paint" IsChecked="True" Checked="SelectPaintRadioBtn_Checked"/>
-                        <RadioButton x:Name="SelectEraseRadioBtn" Content="Erase" Checked="SelectEraseRadioBtn_Checked"/>
+                        <RadioButton x:Name="SelectPaintRadioBtn" Content="Paint" IsChecked="True"/>
+                        <RadioButton x:Name="SelectEraseRadioBtn" Content="Erase"/>
+                        <CheckBox x:Name="EyedropperCheckBox" Content="Select Color" IsChecked="False"/>
                     </StackPanel>
-                    <!--<Button Content="Select Color" Style="{DynamicResource Button}" FontSize="18"/>-->
                 </StackPanel>
             </TabItem>
             <TabItem Header="Brushes">

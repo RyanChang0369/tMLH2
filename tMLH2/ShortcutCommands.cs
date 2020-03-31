@@ -105,14 +105,12 @@ namespace tMLH2
         {
             SelectPaintRadioBtn.IsChecked = true;
             SelectEraseRadioBtn.IsChecked = false;
-            SelectPaintRadioBtn_Checked(SelectPaintRadioBtn, null);
         }
 
         private void ExecuteSelectErase()
         {
             SelectPaintRadioBtn.IsChecked = false;
             SelectEraseRadioBtn.IsChecked = true;
-            SelectEraseRadioBtn_Checked(SelectEraseRadioBtn, null);
         }
     }
 }

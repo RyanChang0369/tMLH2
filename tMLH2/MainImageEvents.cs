@@ -14,35 +14,82 @@ namespace tMLH2
         
         private void ImageControl_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            try
+            if (IsEydropping)
             {
-                UndoHistory.Add(new Bitmap(LayeredImage.SelectedBitmapLayer.Source));
+                UserEyedrops();
             }
-            catch (ArgumentOutOfRangeException)
+            else
             {
-                
+                try
+                {
+                    UndoHistory.Add(new Bitmap(LayeredImage.SelectedBitmapLayer.Source));
+                }
+                catch (ArgumentOutOfRangeException)
+                { }
+
+                IsDrawing = true;
+                UserDrawsOnBitmap();
+                RedoHistory = new List<Bitmap>(MaxItemsInHistory);
             }
-            
-            IsDrawing = true;
-            UserDrawsOnBitmap();
-            RedoHistory = new List<Bitmap>(MaxItemsInHistory);
         }
 
         private void ImageControl_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (IsEydropping)
             {
-                UserDrawsOnBitmap();
+
             }
             else
             {
-                IsDrawing = false;
+                if (e.LeftButton == MouseButtonState.Pressed)
+                {
+                    UserDrawsOnBitmap();
+                }
+                else
+                {
+                    IsDrawing = false;
+                }
             }
         }
 
         private void ImageControl_MouseLeave(object sender, MouseEventArgs e)
         {
             
+        }
+
+        /// <summary>
+        /// Run when user uses the eyedropper tool and clicks on the image.
+        /// </summary>
+        private void UserEyedrops()
+        {
+            try
+            {
+                Bitmap bitmap = new Bitmap(LayeredImage.SelectedBitmapLayer.Source);
+
+                System.Windows.Point mouseLocation = Mouse.GetPosition(ImageControl);
+
+                double xScale = mouseLocation.X / (ImageControl.ActualWidth / LayeredImage.FramePixelWidth);
+                double yScale = mouseLocation.Y / (ImageControl.ActualHeight / LayeredImage.FramePixelHeight);
+
+                int x = (int)Math.Round(xScale);
+                int y = (int)Math.Round(yScale) + LayeredImage.CurrentFrame * LayeredImage.FramePixelHeight;
+
+                int xCentered = x - (int)Math.Round((double)BrushSize / 2);
+                int yCentered = y - (int)Math.Round((double)BrushSize / 2);
+
+                ColorPicker.SelectedColor = ImageHandler.ToMediaColor(bitmap.GetPixel(xCentered, yCentered));
+
+                EyedropperCheckBox.IsChecked = false;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                MessageBox.Show("Please select a layer.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         /// <summary>
@@ -71,7 +118,7 @@ namespace tMLH2
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
                     g.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
-                    if (isPainting)
+                    if (IsPainting)
                         g.FillRectangle(SolidBrushBrush, xCentered, yCentered, BrushSize, BrushSize);
                     else
                         g.FillRectangle(TransparentBrush, xCentered, yCentered, BrushSize, BrushSize);

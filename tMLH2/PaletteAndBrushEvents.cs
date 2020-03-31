@@ -13,7 +13,8 @@ namespace tMLH2
         SolidBrush SolidBrushBrush { get => new SolidBrush(BrushColor); }
         readonly SolidBrush TransparentBrush = new SolidBrush(Color.Transparent);
 
-        bool isPainting = true;
+        private bool IsPainting { get => (bool)SelectPaintRadioBtn.IsChecked; }
+        private bool IsEydropping { get => (bool)EyedropperCheckBox.IsChecked; }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -22,14 +23,9 @@ namespace tMLH2
             BrushSize = (int)slider.Value;
         }
 
-        private void SelectPaintRadioBtn_Checked(object sender, RoutedEventArgs e)
+        private void EyedropperCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            isPainting = true;
-        }
 
-        private void SelectEraseRadioBtn_Checked(object sender, RoutedEventArgs e)
-        {
-            isPainting = false;
         }
     }
 }
