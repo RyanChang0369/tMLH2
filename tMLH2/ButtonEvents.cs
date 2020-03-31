@@ -9,10 +9,11 @@ namespace tMLH2
         {
             FileDialog dialog = new FileDialog((int)FileDialog.DialogOptions.Open);
 
-            if (dialog.Path == null)
+            if (dialog.OpenPaths == null)
                 return;
 
-            LayeredImage.Push(dialog.Path);
+            foreach (string path in dialog.OpenPaths)
+                LayeredImage.Push(path);
 
             InitiateLayersStackPanel();
         }
@@ -21,12 +22,12 @@ namespace tMLH2
         {
             FileDialog dialog = new FileDialog((int)FileDialog.DialogOptions.Save);
 
-            if (dialog.Path == null)
+            if (dialog.SavePath == null)
                 return;
 
             try
             {
-                ImageHandler.WriteBitmap(dialog.Path, LayeredImage.SelectedBitmapLayer.Source);
+                ImageHandler.WriteBitmap(dialog.SavePath, LayeredImage.SelectedBitmapLayer.Source);
                 MessageBox.Show("Image saved!");
             }
             catch (ArgumentOutOfRangeException)

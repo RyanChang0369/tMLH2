@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
@@ -12,7 +13,8 @@ namespace tMLH2
             Save = 1,
             Open = 2
         }
-        public string Path { get; set; }
+        public string SavePath;
+        public string[] OpenPaths;
 
         public FileDialog(int dialogOption)
         {
@@ -20,17 +22,17 @@ namespace tMLH2
             {
                 case (int)DialogOptions.Open:
                     OpenFileDialog openFileDialog = new OpenFileDialog();
-                    openFileDialog.Multiselect = false;
+                    openFileDialog.Multiselect = true;
                     if (openFileDialog.ShowDialog() == true)
                     {
-                        Path = openFileDialog.FileName;
+                        OpenPaths = openFileDialog.FileNames;
                     }
                     break;
                 case (int)DialogOptions.Save:
                     SaveFileDialog saveFileDialog = new SaveFileDialog();
                     if (saveFileDialog.ShowDialog() == true)
                     {
-                        Path = saveFileDialog.FileName;
+                        SavePath = saveFileDialog.FileName;
                     }
                     break;
             }
