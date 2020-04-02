@@ -26,9 +26,25 @@
                 <StackPanel Background="#FFE5E5E5">
                     <xctk:ColorPicker Name="ColorPicker" Width="150" FontSize="14" DisplayColorAndName="True" ShowRecentColors="True" ShowStandardColors="False" SelectedColorChanged="ColorPicker_SelectedColorChanged" SelectedColor="Black"/>
                     <StackPanel>
-                        <RadioButton x:Name="SelectPaintRadioBtn" Content="Paint" IsChecked="True"/>
-                        <RadioButton x:Name="SelectEraseRadioBtn" Content="Erase"/>
-                        <CheckBox x:Name="EyedropperCheckBox" Content="Select Color" IsChecked="False"/>
+                        <RadioButton x:Name="SelectPaintRadioBtn" IsChecked="True">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="assets/paintbrush.png"/>
+                                <Label>Paint</Label>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton x:Name="SelectEraseRadioBtn">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="assets/eraser.png"/>
+                                <Label>Erase</Label>
+                            </StackPanel>
+                        </RadioButton>
+                        <Separator/>
+                        <CheckBox x:Name="EyedropperCheckBox" IsChecked="False">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="assets/eydropper.png"/>
+                                <Label>Select Color</Label>
+                            </StackPanel>
+                        </CheckBox>
                     </StackPanel>
                 </StackPanel>
             </TabItem>
