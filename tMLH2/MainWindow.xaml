@@ -69,9 +69,9 @@
 
         <!--Row 0 Column 2-->
         <TabControl Grid.Column="2" Style="{StaticResource DefaultTabControl}">
-            <TabItem Header="Layers">
+            <TabItem Header="Layers" x:Name="LayersTabItem">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel x:Name="LayersStackPanel">
+                    <ListBox x:Name="LayersStackPanel" SelectionChanged="LayersStackPanel_SelectionChanged" SelectionMode="Single" HorizontalContentAlignment="Stretch">
                         <StackPanel x:Name="LayerTest" Orientation="Horizontal">
                             <Image Source="pack://siteoforigin:,,,/assets/square.png" Width="50" Height="50" Margin="10"/>
                             <Label Content="Background" VerticalContentAlignment="Center" Margin="10" Width="150" FontSize="18"/>
@@ -79,7 +79,7 @@
                                 <Image Source="pack://siteoforigin:,,,/assets/Delete.png" ToolTip="Delete Layer"/>
                             </Button>
                         </StackPanel>
-                    </StackPanel>
+                    </ListBox>
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="Options">

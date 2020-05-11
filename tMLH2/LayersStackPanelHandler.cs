@@ -14,22 +14,20 @@ namespace tMLH2
 
         public void InitiateLayersStackPanel()
         {
-            LayersStackPanel.Children.Clear();
+            LayersStackPanel.Items.Clear();
 
             // For base stack panel (arms not shown)
             CreateLSPChildren(-1, LayeredImage.
                 BaseSourceImages[(int)LayeredImage.BaseImageIndexes.PlayerModel].CurrentFrame.ToBitmapImage());
 
-            int max = 0;
+            int max = -1;
 
             // For other layers
             for (int i = 0; i < LayeredImage.BitmapLayers.Count; i++)
             {
                 CreateLSPChildren(i, LayeredImage.BitmapLayers[i].CurrentFrame.ToBitmapImage());
-                max = i;
+                max++;
             }
-
-            
         }
 
         /// <summary>
@@ -45,14 +43,6 @@ namespace tMLH2
             {
                 Name = "Layer" + index,
                 Orientation = Orientation.Horizontal
-            };
-            Button containerButton = new Button
-            {
-                Name = "LayerButton" + index,
-                Padding = new Thickness(0),
-                ToolTip = "Select this layer",
-                Content = container,
-                Cursor = Cursors.Hand
             };
             Image thumbnail = new Image
             {
@@ -89,45 +79,61 @@ namespace tMLH2
                 label.Content = "Background";
                 deleteButton.IsEnabled = false;
                 deleteIcon.Cursor = Cursors.No;
-                containerButton.Background = new SolidColorBrush(Colors.Gray);
-                containerButton.ToolTip = "This layer is locked";
+                container.Background = new SolidColorBrush(Colors.Gray);
+                container.ToolTip = "This layer is locked";
                 deleteIcon.Source = Properties.Resources.DeleteDisabled.ToBitmapImage();
             }
             else
             {
                 deleteButton.Click += DeleteButton_Click;
-                containerButton.Click += ContainerButton_Click;
             }
 
             container.Children.Add(thumbnail);
             container.Children.Add(label);
             container.Children.Add(deleteButton);
 
-            LayersStackPanel.Children.Add(containerButton);
+            LayersStackPanel.Items.Add(container);
 
-             SaveButton.IsEnabled = LayersStackPanel.Children.Count > 1;
+            SaveButton.IsEnabled = LayersStackPanel.Items.Count > 1;
         }
 
-        private void ContainerButton_Click(object sender, RoutedEventArgs e)
+        private void LayersStackPanel_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string name = (sender as Button).Name;
-            int index = int.Parse(Regex.Replace(name, "[^0-9]", ""));
-            LayeredImage.SelectedIndex = index - 1;
+            int index = LayersStackPanel.SelectedIndex;
+            LayeredImage.SelectedIndex = index;
 
-            for (int i = 0; i < LayersStackPanel.Children.Count; i++)
+            for (int i = 1; i < LayersStackPanel.Items.Count; i++)
             {
-                try
-                {
-                    (LayersStackPanel.Children[index] as Button).Background = new SolidColorBrush(Colors.Transparent);
-                }
-                catch (Exception)
-                {
-                    return;
-                }
+                ((StackPanel)LayersStackPanel.Items[i]).Background = new SolidColorBrush(Colors.Transparent);
             }
 
-            (LayersStackPanel.Children[index] as Button).Background = new SolidColorBrush(Colors.LightSlateGray);
+            // Selected base pane, so return
+            if (index == 0)
+                return;
+
+            try
+            {
+                ((StackPanel)LayersStackPanel.Items[index]).Background = new SolidColorBrush(Colors.LightSlateGray);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+
+            }
         }
+
+        //private void ContainerButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Button button = (Button)sender;
+        //    int index = LayersStackPanel.SelectedIndex;
+        //    LayeredImage.SelectedIndex = index;
+
+        //    for (int i = 0; i < LayersStackPanel.Items.Count; i++)
+        //    {
+        //        (LayersStackPanel.Items[i] as Button).Background = new SolidColorBrush(Colors.Transparent);
+        //    }
+
+        //    button.Background = new SolidColorBrush(Colors.LightSlateGray);
+        //}
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {

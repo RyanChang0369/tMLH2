@@ -246,7 +246,7 @@ namespace tMLH2
                 //        ImageHandler.GetDrawRect(BitmapLayers[i].GetFrame(CurrentFrame)));
                 //}
 
-                FinalImage = BitmapLayers[0].Source;
+                FinalImage = SelectedBitmapLayer.Source;
             }
             catch (ArgumentOutOfRangeException)
             {

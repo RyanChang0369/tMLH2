@@ -105,7 +105,6 @@ namespace tMLH2
                         break;
                     case "ImageOptions_RadioButtonItem":
                         LayeredImage.Mode = LayeredImage.DrawingMode.Item;
-                        ImageControl.Width = 500;
                         break;
                 }
 
