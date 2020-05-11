@@ -13,6 +13,13 @@ namespace tMLH2
 {
     public class LayeredImage
     {
+        public enum DrawingMode
+        {
+            Armor, Item
+        }
+
+        public DrawingMode Mode { get; set; }
+
         private System.Windows.Controls.Image ImageControl;
 
         public int SelectedIndex = -1;
@@ -87,7 +94,7 @@ namespace tMLH2
 
         public void OnWindowResize()
         {
-            FinalImage = new Bitmap((int)ImageControl.ActualWidth, (int)ImageControl.ActualHeight);
+            FinalImage = new Bitmap((int)(ImageControl.ActualWidth * MainWindow.zoom), (int)(ImageControl.ActualHeight * MainWindow.zoom));
             Draw();
         }
 
@@ -175,31 +182,10 @@ namespace tMLH2
             {
                 g.Clear(Color.White);
 
-                try
-                {
-                    for (int i = 0; i < BaseSourceImages.Length; i++)
-                    {
-                        g.DrawImage(BaseSourceImages[i].GetFrame(CurrentFrame),
-                            ImageHandler.GetDrawRect(BaseSourceImages[i].GetFrame(CurrentFrame)));
-                    }
-                }
-                catch (ArgumentOutOfRangeException e)
-                {
-                    Console.WriteLine(e);
-                }
-
-                try
-                {
-                    for (int i = 0; i < BitmapLayers.Count; i++)
-                    {
-                        g.DrawImage(BitmapLayers[i].GetFrame(CurrentFrame),
-                            ImageHandler.GetDrawRect(BitmapLayers[i].GetFrame(CurrentFrame)));
-                    }
-                }
-                catch (ArgumentOutOfRangeException e)
-                {
-                    Console.WriteLine(e);
-                }
+                if (Mode == DrawingMode.Armor)
+                    DrawArmor(g);
+                else
+                    DrawItem(g);
             }
 
             try
@@ -216,6 +202,55 @@ namespace tMLH2
                 });
 
                 Console.WriteLine(e);
+            }
+
+            TogglePaneButtons();
+        }
+
+        private void DrawArmor(Graphics g)
+        {
+            try
+            {
+                for (int i = 0; i < BaseSourceImages.Length; i++)
+                {
+                    g.DrawImage(BaseSourceImages[i].GetFrame(CurrentFrame),
+                        ImageHandler.GetDrawRect(BaseSourceImages[i].GetFrame(CurrentFrame)));
+                }
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                Console.WriteLine(e);
+            }
+
+            try
+            {
+                for (int i = 0; i < BitmapLayers.Count; i++)
+                {
+                    g.DrawImage(BitmapLayers[i].GetFrame(CurrentFrame),
+                        ImageHandler.GetDrawRect(BitmapLayers[i].GetFrame(CurrentFrame)));
+                }
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        private void DrawItem(Graphics g)
+        {
+            try
+            {
+                //for (int i = 0; i < BitmapLayers.Count; i++)
+                //{
+                //    g.DrawImage(BitmapLayers[i].GetFrame(CurrentFrame),
+                //        ImageHandler.GetDrawRect(BitmapLayers[i].GetFrame(CurrentFrame)));
+                //}
+
+                FinalImage = BitmapLayers[0].Source;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+
             }
         }
 
@@ -245,6 +280,14 @@ namespace tMLH2
         
         public void TogglePaneButtons()
         {
+            if (Mode == DrawingMode.Item)
+            {
+                PreviousPaneButton.IsEnabled = false;
+                NextPaneButton.IsEnabled = false;
+                return;
+            }
+
+
             if (CurrentFrame == 0)
                 PreviousPaneButton.IsEnabled = false;
             else

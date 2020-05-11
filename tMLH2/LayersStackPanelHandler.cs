@@ -20,11 +20,16 @@ namespace tMLH2
             CreateLSPChildren(-1, LayeredImage.
                 BaseSourceImages[(int)LayeredImage.BaseImageIndexes.PlayerModel].CurrentFrame.ToBitmapImage());
 
+            int max = 0;
+
             // For other layers
             for (int i = 0; i < LayeredImage.BitmapLayers.Count; i++)
             {
                 CreateLSPChildren(i, LayeredImage.BitmapLayers[i].CurrentFrame.ToBitmapImage());
+                max = i;
             }
+
+            
         }
 
         /// <summary>

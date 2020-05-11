@@ -133,7 +133,12 @@ namespace tMLH2
 
         public static Rectangle GetDrawRect(Bitmap bitmap)
         {
-            return new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+            return GetDrawRect(bitmap, 1);
+        }
+
+        public static Rectangle GetDrawRect(Bitmap bitmap, double zoom)
+        {
+            return new Rectangle(0, 0, (int)(bitmap.Width * zoom), (int)(bitmap.Height * zoom));
         }
 
         public static byte[] BitmapImageToByteArray(this BitmapImage bitmapImage)

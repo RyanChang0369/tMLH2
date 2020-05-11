@@ -103,7 +103,7 @@
                             </RadioButton>
                         </StackPanel>
                     </TabItem>
-                    <!--<TabItem Header="Image Options">
+                    <TabItem Header="Image Options">
                         <StackPanel>
                             <RadioButton x:Name="ImageOptions_RadioButtonArmor" IsChecked="True" Checked="ImageOptions_Checked">
                                 <TextBlock>Armor (Default)</TextBlock>
@@ -112,7 +112,7 @@
                                 <TextBlock>Item</TextBlock>
                             </RadioButton>
                         </StackPanel>
-                    </TabItem>-->
+                    </TabItem>
                     <TabItem Header="Other Options">
                         <StackPanel x:Name="GenderOptionsStackPanel" Style="{StaticResource TabControlStackPanel}">
                             <RadioButton x:Name="GenderOptions_RadioButton10" IsChecked="True" Checked="CheckColorAndGenderOptions">

@@ -13,6 +13,8 @@ namespace tMLH2
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static double zoom = 1;
+
         public enum UnderlayColor
         {
             White,
@@ -94,15 +96,26 @@ namespace tMLH2
         {
             RadioButton radioButton = (RadioButton)sender;
 
-            switch (radioButton.Name)
+            try
             {
-                case "ImageOptions_RadioButtonArmor":
+                switch (radioButton.Name)
+                {
+                    case "ImageOptions_RadioButtonArmor":
+                        LayeredImage.Mode = LayeredImage.DrawingMode.Armor;
+                        break;
+                    case "ImageOptions_RadioButtonItem":
+                        LayeredImage.Mode = LayeredImage.DrawingMode.Item;
+                        ImageControl.Width = 500;
+                        break;
+                }
 
-                    break;
-                case "ImageOptions_RadioButtionItem":
-
-                    break;
+                LayeredImage.Draw();
             }
+            catch (NullReferenceException)
+            {
+
+            }
+
         }
 
         private void ZoomSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -110,8 +123,17 @@ namespace tMLH2
             Slider slider = (Slider)sender;
 
             double zoomValue = slider.Value / 100;
+            zoom = zoomValue;
 
             ImageControl.RenderTransform = new ScaleTransform(zoomValue, zoomValue);
+            try
+            {
+                //LayeredImage.Draw();
+            }
+            catch (NullReferenceException)
+            {
+
+            }
         }
     }
 }
