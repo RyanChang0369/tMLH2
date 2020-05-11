@@ -178,15 +178,12 @@ namespace tMLH2
 
         public void Draw()
         {
-            using (Graphics g = Graphics.FromImage(FinalImage))
-            {
-                g.Clear(Color.White);
+
 
                 if (Mode == DrawingMode.Armor)
-                    DrawArmor(g);
+                    DrawArmor();
                 else
-                    DrawItem(g);
-            }
+                    DrawItem();
 
             try
             {
@@ -207,46 +204,52 @@ namespace tMLH2
             TogglePaneButtons();
         }
 
-        private void DrawArmor(Graphics g)
+        private void DrawArmor()
         {
-            try
+
+            Bitmap bitmap = new Bitmap(FinalImage.Width, FinalImage.Height);
+                //FinalImage.Clone(ImageHandler.GetDrawRect(FinalImage), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            using (Graphics g = Graphics.FromImage(bitmap))
             {
-                for (int i = 0; i < BaseSourceImages.Length; i++)
+                g.Clear(Color.White);
+
+                try
                 {
-                    g.DrawImage(BaseSourceImages[i].GetFrame(CurrentFrame),
-                        ImageHandler.GetDrawRect(BaseSourceImages[i].GetFrame(CurrentFrame)));
+                    for (int i = 0; i < BaseSourceImages.Length; i++)
+                    {
+                        g.DrawImageUnscaled(BaseSourceImages[i].GetFrame(CurrentFrame),
+                            ImageHandler.GetDrawRect(BaseSourceImages[i].GetFrame(CurrentFrame)));
+                    }
                 }
-            }
-            catch (ArgumentOutOfRangeException e)
-            {
-                Console.WriteLine(e);
+                catch (ArgumentOutOfRangeException e)
+                {
+                    Console.WriteLine(e);
+                }
+
+                try
+                {
+                    for (int i = 0; i < BitmapLayers.Count; i++)
+                    {
+                        g.DrawImageUnscaled(BitmapLayers[i].GetFrame(CurrentFrame),
+                            ImageHandler.GetDrawRect(BitmapLayers[i].GetFrame(CurrentFrame)));
+                    }
+                }
+                catch (ArgumentOutOfRangeException e)
+                {
+                    Console.WriteLine(e);
+                }
             }
 
-            try
-            {
-                for (int i = 0; i < BitmapLayers.Count; i++)
-                {
-                    g.DrawImage(BitmapLayers[i].GetFrame(CurrentFrame),
-                        ImageHandler.GetDrawRect(BitmapLayers[i].GetFrame(CurrentFrame)));
-                }
-            }
-            catch (ArgumentOutOfRangeException e)
-            {
-                Console.WriteLine(e);
-            }
+            FinalImage = (Bitmap)bitmap.Clone();
+            bitmap.Dispose();
         }
 
-        private void DrawItem(Graphics g)
+        private void DrawItem()
         {
             try
             {
-                //for (int i = 0; i < BitmapLayers.Count; i++)
-                //{
-                //    g.DrawImage(BitmapLayers[i].GetFrame(CurrentFrame),
-                //        ImageHandler.GetDrawRect(BitmapLayers[i].GetFrame(CurrentFrame)));
-                //}
-
-                FinalImage = SelectedBitmapLayer.Source;
+                FinalImage = (Bitmap)SelectedBitmapLayer.Source.Clone();
             }
             catch (ArgumentOutOfRangeException)
             {

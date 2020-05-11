@@ -17,16 +17,13 @@ namespace tMLH2
             LayersStackPanel.Items.Clear();
 
             // For base stack panel (arms not shown)
-            CreateLSPChildren(-1, LayeredImage.
-                BaseSourceImages[(int)LayeredImage.BaseImageIndexes.PlayerModel].CurrentFrame.ToBitmapImage());
-
-            int max = -1;
+            //CreateLSPChildren(-1, LayeredImage.
+            //    BaseSourceImages[(int)LayeredImage.BaseImageIndexes.PlayerModel].CurrentFrame.ToBitmapImage());
 
             // For other layers
             for (int i = 0; i < LayeredImage.BitmapLayers.Count; i++)
             {
                 CreateLSPChildren(i, LayeredImage.BitmapLayers[i].CurrentFrame.ToBitmapImage());
-                max++;
             }
         }
 
@@ -36,9 +33,7 @@ namespace tMLH2
         /// <param name="index"></param>
         /// <param name="thumbnailSource"></param>
         private void CreateLSPChildren(int index, BitmapImage thumbnailSource)
-        {
-            index++;
-            
+        {           
             StackPanel container = new StackPanel
             {
                 Name = "Layer" + index,
@@ -74,19 +69,19 @@ namespace tMLH2
                 Name = "DeleteButton" + index
             };
 
-            if (index == 0) //If this is a base panel
-            {
-                label.Content = "Background";
-                deleteButton.IsEnabled = false;
-                deleteIcon.Cursor = Cursors.No;
-                container.Background = new SolidColorBrush(Colors.Gray);
-                container.ToolTip = "This layer is locked";
-                deleteIcon.Source = Properties.Resources.DeleteDisabled.ToBitmapImage();
-            }
-            else
-            {
-                deleteButton.Click += DeleteButton_Click;
-            }
+            //if (index == 0) //If this is a base panel
+            //{
+            //    label.Content = "Background";
+            //    deleteButton.IsEnabled = false;
+            //    deleteIcon.Cursor = Cursors.No;
+            //    container.Background = new SolidColorBrush(Colors.Gray);
+            //    container.ToolTip = "This layer is locked";
+            //    deleteIcon.Source = Properties.Resources.DeleteDisabled.ToBitmapImage();
+            //}
+            //else
+            //{
+            deleteButton.Click += DeleteButton_Click;
+            //}
 
             container.Children.Add(thumbnail);
             container.Children.Add(label);
@@ -102,7 +97,7 @@ namespace tMLH2
             int index = LayersStackPanel.SelectedIndex;
             LayeredImage.SelectedIndex = index;
 
-            for (int i = 1; i < LayersStackPanel.Items.Count; i++)
+            for (int i = 0; i < LayersStackPanel.Items.Count; i++)
             {
                 ((StackPanel)LayersStackPanel.Items[i]).Background = new SolidColorBrush(Colors.Transparent);
             }

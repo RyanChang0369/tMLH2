@@ -106,8 +106,19 @@ namespace tMLH2
 
                 System.Windows.Point mouseLocation = Mouse.GetPosition(ImageControl);
 
-                double xScale = mouseLocation.X / (ImageControl.ActualWidth / LayeredImage.FramePixelWidth);
-                double yScale = mouseLocation.Y / (ImageControl.ActualHeight / LayeredImage.FramePixelHeight);
+                double xScale = 0;
+                double yScale = 0;
+
+                if (LayeredImage.Mode == LayeredImage.DrawingMode.Armor)
+                {
+                    xScale = mouseLocation.X / (ImageControl.ActualWidth / LayeredImage.FramePixelWidth);
+                    yScale = mouseLocation.Y / (ImageControl.ActualHeight / LayeredImage.FramePixelHeight);
+                }
+                else
+                {
+                    xScale = mouseLocation.X / (ImageControl.ActualWidth / LayeredImage.BitmapLayers[LayeredImage.CurrentFrame].Source.Width);
+                    yScale = mouseLocation.Y / (ImageControl.ActualHeight / LayeredImage.BitmapLayers[LayeredImage.CurrentFrame].Source.Height);
+                }
 
                 int x = (int)Math.Round(xScale);
                 int y = (int)Math.Round(yScale) + LayeredImage.CurrentFrame * LayeredImage.FramePixelHeight;
