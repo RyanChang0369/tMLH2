@@ -37,6 +37,7 @@ namespace tMLH2
 
         public const int FramePixelWidth = 40;
         public const int FramePixelHeight = 56;
+        public readonly Rectangle FrameRectangle = new Rectangle(0, 0, FramePixelWidth, FramePixelHeight);
 
         public enum BaseImageIndexes
         {
@@ -90,12 +91,6 @@ namespace tMLH2
             Draw();
 
             TogglePaneButtons();
-        }
-
-        public void OnWindowResize()
-        {
-            FinalImage = new Bitmap((int)(ImageControl.ActualWidth * MainWindow.zoom), (int)(ImageControl.ActualHeight * MainWindow.zoom));
-            Draw();
         }
 
         /// <summary>
@@ -179,11 +174,10 @@ namespace tMLH2
         public void Draw()
         {
 
-
-                if (Mode == DrawingMode.Armor)
-                    DrawArmor();
-                else
-                    DrawItem();
+            if (Mode == DrawingMode.Armor)
+                DrawArmor();
+            else
+                DrawItem();
 
             try
             {
@@ -206,8 +200,7 @@ namespace tMLH2
 
         private void DrawArmor()
         {
-
-            Bitmap bitmap = new Bitmap(FinalImage.Width, FinalImage.Height);
+            Bitmap bitmap = new Bitmap(FramePixelWidth, FramePixelHeight);
 
             using (Graphics g = Graphics.FromImage(bitmap))
             {
@@ -217,7 +210,7 @@ namespace tMLH2
                 {
                     for (int i = 0; i < BaseSourceImages.Length; i++)
                     {
-                        g.DrawImageUnscaled(BaseSourceImages[i].GetFrame(CurrentFrame),
+                        g.DrawImage(BaseSourceImages[i].GetFrame(CurrentFrame),
                             ImageHandler.GetDrawRect(BaseSourceImages[i].GetFrame(CurrentFrame)));
                     }
                 }
@@ -230,7 +223,7 @@ namespace tMLH2
                 {
                     for (int i = 0; i < BitmapLayers.Count; i++)
                     {
-                        g.DrawImageUnscaled(BitmapLayers[i].GetFrame(CurrentFrame),
+                        g.DrawImage(BitmapLayers[i].GetFrame(CurrentFrame),
                             ImageHandler.GetDrawRect(BitmapLayers[i].GetFrame(CurrentFrame)));
                     }
                 }

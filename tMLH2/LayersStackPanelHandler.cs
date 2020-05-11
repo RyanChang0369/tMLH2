@@ -69,19 +69,7 @@ namespace tMLH2
                 Name = "DeleteButton" + index
             };
 
-            //if (index == 0) //If this is a base panel
-            //{
-            //    label.Content = "Background";
-            //    deleteButton.IsEnabled = false;
-            //    deleteIcon.Cursor = Cursors.No;
-            //    container.Background = new SolidColorBrush(Colors.Gray);
-            //    container.ToolTip = "This layer is locked";
-            //    deleteIcon.Source = Properties.Resources.DeleteDisabled.ToBitmapImage();
-            //}
-            //else
-            //{
             deleteButton.Click += DeleteButton_Click;
-            //}
 
             container.Children.Add(thumbnail);
             container.Children.Add(label);
@@ -132,17 +120,18 @@ namespace tMLH2
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            Button btn = (sender as Button);
+            Button btn = (Button)sender;
+            StackPanel container = (StackPanel)VisualTreeHelper.GetParent(btn);
             ButtonJustDeleted = btn;
-            int id = Int32.Parse(Regex.Replace(btn.Name, "[^.0-9]", "")) - 1;
+            int index = LayersStackPanel.Items.IndexOf(container);
             Console.WriteLine("LayersStackPanelHandler (1): btn " + btn.Name);
 
-            if (id + 1 == LayeredImage.SelectedIndex)
+            if (index + 1 == LayeredImage.SelectedIndex)
             {
                 LayeredImage.SelectedIndex = -1;
             }
 
-            LayeredImage.Remove(id);
+            LayeredImage.Remove(index);
             InitiateLayersStackPanel();
         }
     }
