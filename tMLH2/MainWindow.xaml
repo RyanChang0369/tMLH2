@@ -6,7 +6,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:tMLH2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1000"
+        Title="MainWindow" Height="1000" Width="1600"
         KeyDown="Window_KeyDown">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -58,7 +58,14 @@
         </TabControl>
 
         <!--Row 0 Column 1-->
-        <Image x:Name="ImageControl" Grid.Column="1" Style="{StaticResource MainImage}" MouseDown="ImageControl_MouseDown" MouseMove="ImageControl_MouseMove" MouseLeave="ImageControl_MouseLeave" Cursor="Cross"/>
+        <Image x:Name="ImageControl" Grid.Column="1" Style="{StaticResource MainImage}" MouseDown="ImageControl_MouseDown" MouseMove="ImageControl_MouseMove" MouseLeave="ImageControl_MouseLeave" Cursor="Cross">
+            <Image.RenderTransformOrigin>
+                <Point X="0.5" Y="0.5"/>
+            </Image.RenderTransformOrigin>
+            <Image.RenderTransform>
+                <ScaleTransform ScaleX="1" ScaleY="1"/>
+            </Image.RenderTransform>
+        </Image>
 
         <!--Row 0 Column 2-->
         <TabControl Grid.Column="2" Style="{StaticResource DefaultTabControl}">
@@ -75,7 +82,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Background Options">
+            <TabItem Header="Options">
                 <TabControl Style="{StaticResource DefaultTabControl}">
                     <TabItem Header="Color Options">
                         <StackPanel x:Name="ColorOptionsStackPanel" Style="{StaticResource TabControlStackPanel}">
@@ -96,6 +103,16 @@
                             </RadioButton>
                         </StackPanel>
                     </TabItem>
+                    <!--<TabItem Header="Image Options">
+                        <StackPanel>
+                            <RadioButton x:Name="ImageOptions_RadioButtonArmor" IsChecked="True" Checked="ImageOptions_Checked">
+                                <TextBlock>Armor (Default)</TextBlock>
+                            </RadioButton>
+                            <RadioButton x:Name="ImageOptions_RadioButtonItem" Checked="ImageOptions_Checked">
+                                <TextBlock>Item</TextBlock>
+                            </RadioButton>
+                        </StackPanel>
+                    </TabItem>-->
                     <TabItem Header="Other Options">
                         <StackPanel x:Name="GenderOptionsStackPanel" Style="{StaticResource TabControlStackPanel}">
                             <RadioButton x:Name="GenderOptions_RadioButton10" IsChecked="True" Checked="CheckColorAndGenderOptions">
@@ -108,6 +125,7 @@
                     </TabItem>
                 </TabControl>
             </TabItem>
+            
         </TabControl>
         
         <!--Row 1 Column 0-->
@@ -135,7 +153,11 @@
             <Button x:Name="PrevPaneButton" Content="&#9664;" Margin="10" VerticalAlignment="Top" FontSize="24" Height="40" ToolTip="Previous Frame" HorizontalContentAlignment="Center"/>
             <Button x:Name="NextPaneButton" Content="&#9654;" Grid.Column="1" Margin="10" VerticalAlignment="Top" FontSize="24" Height="40" ToolTip="Next Frame"/>
         </Grid>
-        
+
         <!--Row 1 Column 2-->
+        <StackPanel Grid.Column="2" Grid.Row="1">
+            <Label Content="Zoom" Style="{StaticResource h2}" Margin="0"/>
+            <Slider x:Name="ZoomSlider" ValueChanged="ZoomSlider_ValueChanged" Minimum="10" Maximum="500" TickPlacement="BottomRight" TickFrequency="10" Value="100" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"/>
+        </StackPanel>
     </Grid>
 </Window>

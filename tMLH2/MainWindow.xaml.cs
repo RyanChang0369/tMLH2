@@ -86,8 +86,32 @@ namespace tMLH2
         private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
             //Test
-            System.Windows.Media.Color tempColor = (System.Windows.Media.Color)ColorPicker.SelectedColor;
+            Color tempColor = (Color)ColorPicker.SelectedColor;
             BrushColor = tempColor.ToDrawingColor();
+        }
+
+        private void ImageOptions_Checked(object sender, RoutedEventArgs e)
+        {
+            RadioButton radioButton = (RadioButton)sender;
+
+            switch (radioButton.Name)
+            {
+                case "ImageOptions_RadioButtonArmor":
+
+                    break;
+                case "ImageOptions_RadioButtionItem":
+
+                    break;
+            }
+        }
+
+        private void ZoomSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider slider = (Slider)sender;
+
+            double zoomValue = slider.Value / 100;
+
+            ImageControl.RenderTransform = new ScaleTransform(zoomValue, zoomValue);
         }
     }
 }
