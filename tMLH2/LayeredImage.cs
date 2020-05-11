@@ -208,7 +208,6 @@ namespace tMLH2
         {
 
             Bitmap bitmap = new Bitmap(FinalImage.Width, FinalImage.Height);
-                //FinalImage.Clone(ImageHandler.GetDrawRect(FinalImage), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             using (Graphics g = Graphics.FromImage(bitmap))
             {
