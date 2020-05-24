@@ -90,10 +90,6 @@ namespace tMLH2
                 ((StackPanel)LayersStackPanel.Items[i]).Background = new SolidColorBrush(Colors.Transparent);
             }
 
-            // Selected base pane, so return
-            if (index == 0)
-                return;
-
             try
             {
                 ((StackPanel)LayersStackPanel.Items[index]).Background = new SolidColorBrush(Colors.LightSlateGray);
@@ -102,21 +98,9 @@ namespace tMLH2
             {
 
             }
+
+            LayeredImage.Draw();
         }
-
-        //private void ContainerButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Button button = (Button)sender;
-        //    int index = LayersStackPanel.SelectedIndex;
-        //    LayeredImage.SelectedIndex = index;
-
-        //    for (int i = 0; i < LayersStackPanel.Items.Count; i++)
-        //    {
-        //        (LayersStackPanel.Items[i] as Button).Background = new SolidColorBrush(Colors.Transparent);
-        //    }
-
-        //    button.Background = new SolidColorBrush(Colors.LightSlateGray);
-        //}
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {

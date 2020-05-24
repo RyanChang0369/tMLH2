@@ -104,7 +104,7 @@
                         </StackPanel>
                     </TabItem>
                     <TabItem Header="Image Options">
-                        <StackPanel>
+                        <StackPanel Style="{StaticResource TabControlStackPanel}">
                             <RadioButton x:Name="ImageOptions_RadioButtonArmor" IsChecked="True" Checked="ImageOptions_Checked">
                                 <TextBlock>Armor (Default)</TextBlock>
                             </RadioButton>

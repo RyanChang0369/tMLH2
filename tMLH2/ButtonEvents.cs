@@ -17,6 +17,7 @@ namespace tMLH2
 
             InitiateLayersStackPanel();
             LayersStackPanel.SelectedIndex = LayersStackPanel.Items.Count - 1;
+            LayeredImage.Draw();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
