@@ -116,8 +116,15 @@ namespace tMLH2
                 }
                 else
                 {
-                    xScale = mouseLocation.X / (ImageControl.ActualWidth / LayeredImage.BitmapLayers[LayeredImage.CurrentFrame].Source.Width);
-                    yScale = mouseLocation.Y / (ImageControl.ActualHeight / LayeredImage.BitmapLayers[LayeredImage.CurrentFrame].Source.Height);
+                    try
+                    {
+                        xScale = mouseLocation.X / (ImageControl.ActualWidth / LayeredImage.BitmapLayers[LayersStackPanel.SelectedIndex].Source.Width);
+                        yScale = mouseLocation.Y / (ImageControl.ActualHeight / LayeredImage.BitmapLayers[LayersStackPanel.SelectedIndex].Source.Height);
+                    }
+                    catch (Exception)
+                    {
+                        return;
+                    }
                 }
 
                 int x = (int)Math.Round(xScale);

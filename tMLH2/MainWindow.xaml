@@ -21,7 +21,7 @@
         
 
         <!--Row 0 Column 0-->
-        <TabControl Style="{StaticResource DefaultTabControl}">
+        <TabControl Style="{StaticResource DefaultTabControl}" Panel.ZIndex="10">
             <TabItem Header="Palette">
                 <StackPanel Background="#FFE5E5E5">
                     <xctk:ColorPicker Name="ColorPicker" Width="150" FontSize="14" DisplayColorAndName="True" ShowRecentColors="True" ShowStandardColors="False" SelectedColorChanged="ColorPicker_SelectedColorChanged" SelectedColor="Black"/>
@@ -68,7 +68,7 @@
         </Image>
 
         <!--Row 0 Column 2-->
-        <TabControl Grid.Column="2" Style="{StaticResource DefaultTabControl}">
+        <TabControl Grid.Column="2" Style="{StaticResource DefaultTabControl}" Panel.ZIndex="10">
             <TabItem Header="Layers" x:Name="LayersTabItem">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <ListBox x:Name="LayersStackPanel" SelectionChanged="LayersStackPanel_SelectionChanged" SelectionMode="Single" HorizontalContentAlignment="Stretch" MinHeight="100">
@@ -129,7 +129,7 @@
         </TabControl>
         
         <!--Row 1 Column 0-->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Panel.ZIndex="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -142,7 +142,7 @@
         </Grid>
         
         <!--Row 1 Column 1-->
-        <Grid Grid.Row="1" Grid.Column="1">
+        <Grid Grid.Row="1" Grid.Column="1" Panel.ZIndex="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -155,7 +155,7 @@
         </Grid>
 
         <!--Row 1 Column 2-->
-        <StackPanel Grid.Column="2" Grid.Row="1">
+        <StackPanel Grid.Column="2" Grid.Row="1" Panel.ZIndex="10">
             <Label Content="Zoom" Style="{StaticResource h2}" Margin="0"/>
             <Slider x:Name="ZoomSlider" ValueChanged="ZoomSlider_ValueChanged" Minimum="10" Maximum="500" TickPlacement="BottomRight" TickFrequency="10" Value="100" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"/>
         </StackPanel>
