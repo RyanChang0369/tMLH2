@@ -71,7 +71,7 @@
         <TabControl Grid.Column="2" Style="{StaticResource DefaultTabControl}">
             <TabItem Header="Layers" x:Name="LayersTabItem">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <ListBox x:Name="LayersStackPanel" SelectionChanged="LayersStackPanel_SelectionChanged" SelectionMode="Single" HorizontalContentAlignment="Stretch">
+                    <ListBox x:Name="LayersStackPanel" SelectionChanged="LayersStackPanel_SelectionChanged" SelectionMode="Single" HorizontalContentAlignment="Stretch" MinHeight="100">
                         <StackPanel x:Name="LayerTest" Orientation="Horizontal">
                             <Image Source="pack://siteoforigin:,,,/assets/square.png" Width="50" Height="50" Margin="10"/>
                             <Label Content="Background" VerticalContentAlignment="Center" Margin="10" Width="150" FontSize="18"/>
