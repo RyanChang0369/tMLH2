@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System;
+using System.Drawing;
 
 namespace tMLH2
 {
@@ -7,7 +8,7 @@ namespace tMLH2
     {
         private void UploadButton_Click(object sender, RoutedEventArgs e)
         {
-            FileDialog dialog = new FileDialog((int)FileDialog.DialogOptions.Open);
+            FileDialog dialog = new FileDialog(FileDialog.DialogOptions.Open);
 
             if (dialog.OpenPaths == null)
                 return;
@@ -22,7 +23,7 @@ namespace tMLH2
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            FileDialog dialog = new FileDialog((int)FileDialog.DialogOptions.Save);
+            FileDialog dialog = new FileDialog(FileDialog.DialogOptions.Save);
 
             if (dialog.SavePath == null)
                 return;
@@ -40,8 +41,28 @@ namespace tMLH2
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            CreateNewImageWindow imageWindow = new CreateNewImageWindow();
-            imageWindow.ShowDialog();
+            SelectItemTypeWindow itemTypeWindow = new SelectItemTypeWindow();
+            itemTypeWindow.ShowDialog();
+            ItemType itemType = itemTypeWindow.ItemType;
+
+            Bitmap bitmap;
+
+            if (IsArmorLike(itemType))
+                bitmap = new Bitmap(40, 1120);
+            else
+            {
+                CreateNewImageWindow imageWindow = new CreateNewImageWindow();
+                imageWindow.ShowDialog();
+                bitmap = imageWindow.CreatedBitmap;
+            }
+
+            FileDialog fileDialog = new FileDialog(FileDialog.DialogOptions.Save);
+
+            if (fileDialog.SavePath == null)
+                return;
+
+            LayeredImage.Push(bitmap, itemType, fileDialog.SavePath, true);
+            InitiateLayersStackPanel();
         }
     }
 }

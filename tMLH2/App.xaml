@@ -113,6 +113,39 @@
             <Setter Property="MinHeight" Value="100"/>
         </Style>
 
+        <!--Image Styles-->
+        <Style TargetType="Image">
+            <Setter Property="RenderOptions.BitmapScalingMode" Value="NearestNeighbor"/>
+        </Style>
+
+        <Style TargetType="Image" x:Key="goodQuality">
+            <Setter Property="RenderOptions.BitmapScalingMode" Value="Linear"/>
+        </Style>
+
+        <Style TargetType="Image" x:Key="fill" BasedOn="{StaticResource goodQuality}">
+            <Setter Property="Stretch" Value="UniformToFill"/>
+        </Style>
+
+        <Style TargetType="Image" x:Key="blurred" BasedOn="{StaticResource fill}">
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <BlurEffect Radius="10" KernelType="Gaussian" RenderingBias="Performance"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Image" x:Key="circleImg" BasedOn="{StaticResource goodQuality}">
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        
         <!--Validation Templates and Styles-->
         <ControlTemplate x:Key="validationTemplate">
             <DockPanel>

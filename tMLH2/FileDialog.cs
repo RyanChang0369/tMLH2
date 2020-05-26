@@ -16,11 +16,11 @@ namespace tMLH2
         public string SavePath;
         public string[] OpenPaths;
 
-        public FileDialog(int dialogOption)
+        public FileDialog(DialogOptions dialogOption)
         {
             switch (dialogOption)
             {
-                case (int)DialogOptions.Open:
+                case DialogOptions.Open:
                     OpenFileDialog openFileDialog = new OpenFileDialog();
                     openFileDialog.Multiselect = true;
                     if (openFileDialog.ShowDialog() == true)
@@ -28,7 +28,7 @@ namespace tMLH2
                         OpenPaths = openFileDialog.FileNames;
                     }
                     break;
-                case (int)DialogOptions.Save:
+                case DialogOptions.Save:
                     SaveFileDialog saveFileDialog = new SaveFileDialog();
                     if (saveFileDialog.ShowDialog() == true)
                     {

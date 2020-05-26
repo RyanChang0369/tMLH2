@@ -124,7 +124,13 @@ namespace tMLH2
         /// <param name="bitmap"></param>
         public void Push(Bitmap bitmap)
         {
-            
+            Push(bitmap, MainWindow.ItemType.Unknown, bitmap.Height, null, false);
+        }
+
+        public void Push(Bitmap bitmap, MainWindow.ItemType itemType, string fullPath, bool useWatcher)
+        {
+            Push(bitmap, itemType,
+               SmartDetection.DetectFrameHeight(bitmap.Height, itemType), fullPath, useWatcher);
         }
 
         /// <summary>

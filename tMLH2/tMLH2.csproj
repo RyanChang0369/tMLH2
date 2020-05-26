@@ -77,12 +77,19 @@
       <DependentUpon>CreateNewImageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="EditorInterface.cs" />
+    <Compile Include="EnumConverter.cs" />
+    <Compile Include="EnumDescriptor.xaml.cs">
+      <DependentUpon>EnumDescriptor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MiscMethods.cs" />
     <Compile Include="NumberValidation.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SelectItemTypeWindow.xaml.cs">
+      <DependentUpon>SelectItemTypeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShortcutCommands.cs" />
     <Compile Include="MainImageEvents.cs" />
@@ -100,6 +107,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="EnumDescriptor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -113,6 +124,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SelectItemTypeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -194,6 +209,10 @@
     <Resource Include="assets\eydropperDisabled.png" />
     <Resource Include="assets\paintbrush.png" />
     <Resource Include="assets\paintbrushDisabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="infoCircle.png" />
+    <Resource Include="questionMark.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

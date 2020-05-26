@@ -20,19 +20,32 @@ namespace tMLH2
     /// </summary>
     public partial class CreateNewImageWindow : EditorInterface
     {
-        public static Bitmap CreatedBitmap { get; set; }
+        public Bitmap CreatedBitmap { get; set; }
+
+        private System.Drawing.Rectangle rectangle;
+
         public CreateNewImageWindow()
         {
             InitializeComponent();
             UpdateComponent();
-            DataContext = CreatedBitmap;
-            
+            DataContext = rectangle;
+        }
+
+        protected override void SafelyExit()
+        {
+            if (rectangle.Width < 1)
+                rectangle.Width = 1;
+
+            if (rectangle.Height < 1)
+                rectangle.Height = 1;
+
+            CreatedBitmap = new Bitmap(rectangle.Width, rectangle.Height);
         }
 
         protected override void UpdateComponent()
         {
-            if (CreatedBitmap == null)
-                CreatedBitmap = new Bitmap(48, 48);
+            if (rectangle == null || rectangle.Width == 0 || rectangle.Height == 0)
+                rectangle = new System.Drawing.Rectangle(0, 0, 48, 48);
         }
 
         protected override void AddRequiredControls()
