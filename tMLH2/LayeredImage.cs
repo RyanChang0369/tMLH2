@@ -103,31 +103,40 @@ namespace tMLH2
         }
 
         /// <summary>
-        /// Push to BitmapLayers. Uses SmartDetection.
+        /// Push bitmap to BitmapLayers. Uses SmartDetection.
         /// </summary>
         /// <param name="fullPath"></param>
         public void Push(string fullPath)
         {
             Bitmap tempBmp = ImageHandler.SilentlyReadBitmap(fullPath);
 
-            int itemType = SmartDetection.DetectType(fullPath, tempBmp.ToBitmapImage());
+            MainWindow.ItemType itemType = SmartDetection.DetectType(fullPath, tempBmp.ToBitmapImage());
 
             Push(tempBmp, itemType,
                 SmartDetection.DetectFrameHeight(tempBmp.Height, itemType), fullPath, true);
         }
 
         /// <summary>
+        /// Push bitmap to BitmapLayers. Does NOT use SmartDetection.
+        /// </summary>
+        /// <param name="bitmap"></param>
+        public void Push(Bitmap bitmap)
+        {
+            
+        }
+
+        /// <summary>
         /// Push to BitmapLayers
         /// </summary>
-        /// <param name="bitmapImage"></param>
+        /// <param name="bitmap"></param>
         /// <param name="itemType"></param>
         /// <param name="frameHeight"></param>
         /// <param name="fullPath"></param>
         /// <param name="useWatcher"></param>
-        public void Push(Bitmap bitmapImage, int itemType, int frameHeight, string fullPath, bool useWatcher)
+        public void Push(Bitmap bitmap, MainWindow.ItemType itemType, int frameHeight, string fullPath, bool useWatcher)
         {
             BitmapLayers.Insert(BitmapLayers.Count,
-                new BitmapLayer(bitmapImage, this, itemType, frameHeight, fullPath, useWatcher));
+                new BitmapLayer(bitmap, this, itemType, frameHeight, fullPath, useWatcher));
             Draw();
         }
 

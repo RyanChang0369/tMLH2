@@ -21,7 +21,7 @@ namespace tMLH2
             Head = 15,
             //Ballon = 14,
             Accessory = 20,
-            Swing = 110,    // Most swords, placable item
+            Swing = 110,    // Most swords, placable items
             Eat = 120,      // Healing items
             Stab = 130,     // Shortswords
             HoldUp = 140,   // Life crystals, mana crystals, summoning
@@ -32,19 +32,19 @@ namespace tMLH2
         /// Gets the group that this item type is in (armor, weapon, etc)
         /// </summary>
         /// <param name="itemType"></param>
-        public static int GetGrouping(int itemType)
+        public static int GetGrouping(ItemType itemType)
         {
-            return (itemType / 10) * 10;
+            return ((int)itemType / 10) * 10;
         }
 
-        public static bool IsArmorLike(int itemType)
+        public static bool IsArmorLike(MainWindow.ItemType itemType)
         {
             return GetGrouping(itemType) == (int)ItemType.Armor
                 || GetGrouping(itemType) == (int)ItemType.Static;
         }
         
         //Change to match call from BitmapLayer
-        public static int GetNumberOfFrames(int itemType, int sourceHeight, int frameHeight)
+        public static int GetNumberOfFrames(ItemType itemType, int sourceHeight, int frameHeight)
         {
             if (IsArmorLike(itemType))
             {

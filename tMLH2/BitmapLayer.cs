@@ -13,9 +13,9 @@ namespace tMLH2
         /// <summary>
         /// The Bitmap that represents this BitmapLayer
         /// </summary>
-        public Bitmap Source;
+        public Bitmap Source { get; set; }
         
-        public Bitmap[] BitmapFrames;
+        public Bitmap[] BitmapFrames { get; set; }
         
         public int FrameHeight { get => BitmapFrames[0].Height; }
 
@@ -26,11 +26,11 @@ namespace tMLH2
         /// <summary>
         /// The ItemType associated with this BitmapLayer
         /// </summary>
-        public int ItemType;
+        public MainWindow.ItemType ItemType { get; set; }
 
-        public string FullPath;
+        public string FullPath { get; set; }
 
-        private LayeredImage ParentLayeredImage;
+        private LayeredImage parentLayeredImage;
 
         public Bitmap CurrentFrame
         {
@@ -38,7 +38,7 @@ namespace tMLH2
             {
                 try
                 {
-                    return BitmapFrames[ParentLayeredImage.CurrentFrame];
+                    return BitmapFrames[parentLayeredImage.CurrentFrame];
                 }
                 catch (IndexOutOfRangeException)
                 {
@@ -57,14 +57,14 @@ namespace tMLH2
             Source = source;
             ItemType = (int)MainWindow.ItemType.Static;
             FullPath = null;
-            ParentLayeredImage = parentLayeredImage;
+            this.parentLayeredImage = parentLayeredImage;
 
             BitmapFrames = new Bitmap[MainWindow.GetNumberOfFrames(ItemType, source.Height, 56)];
 
             DivideBitmap();
         }
         
-        public BitmapLayer(Bitmap source, LayeredImage parentLayeredImage, int itemType,
+        public BitmapLayer(Bitmap source, LayeredImage parentLayeredImage, MainWindow.ItemType itemType,
             int frameHeight, string fullPath, bool useWatcher)
         {
             if (source.Height == 1118)
@@ -74,7 +74,7 @@ namespace tMLH2
 
             ItemType = itemType;
             FullPath = fullPath;
-            ParentLayeredImage = parentLayeredImage;
+            this.parentLayeredImage = parentLayeredImage;
 
             BitmapFrames = new Bitmap[MainWindow.GetNumberOfFrames(itemType, Source.Height, frameHeight)];
             
@@ -142,7 +142,7 @@ namespace tMLH2
             // Somehow call the draw method
             App.Current.Dispatcher.Invoke(() =>
             {
-                ParentLayeredImage.Draw();
+                parentLayeredImage.Draw();
             });
         }
     }

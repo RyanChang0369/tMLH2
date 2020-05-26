@@ -6,7 +6,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:tMLH2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="1600"
+        Title="tModLoaderHelper" Height="1000" Width="1600"
         KeyDown="Window_KeyDown">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -133,12 +133,14 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Button x:Name="SaveButton" Content="Save" Style="{StaticResource Button}" IsEnabled="False" Click="SaveButton_Click"/>
-            <Button x:Name="UploadButton" Content="Upload" Grid.Column="1" Style="{StaticResource Button}" Click="UploadButton_Click"/>
+            <Button x:Name="NewButton" Content="New" Grid.Column="1" Style="{StaticResource Button}" Click="NewButton_Click"/>
+            <Button x:Name="UploadButton" Content="Open" Grid.Column="2" Style="{StaticResource Button}" Click="UploadButton_Click"/>
         </Grid>
         
         <!--Row 1 Column 1-->

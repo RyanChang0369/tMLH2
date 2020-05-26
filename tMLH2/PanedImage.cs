@@ -64,7 +64,7 @@ namespace tMLH2
         /// <summary>
         /// An integer that referes to the type of item this PanedImage represents. Refer to ItemType enum.
         /// </summary>
-        public int ItemType;
+        public MainWindow.ItemType ItemType { get; set; }
 
         public string SourcePath;
 
@@ -73,14 +73,14 @@ namespace tMLH2
         /// <summary>
         /// Creates a paned image object. RUN INITSTATIC BEFORE RUNNING THIS.
         /// </summary>
-        /// <param name="frames">Total number of frames in this paned image</param>
+        /// <param name="startFrame">Total number of frames in this paned image</param>
+        /// <param name="itemType"></param>
         /// <param name="startFrame">Current frame of this paned image. This equals x, where 0 &lt;= x &lt;= frames</param>
         /// <param name="bitmapImage">The bitmap associated with this object</param>
         /// <param name="imageElement">The System.Windows.Controls.Image associated with this object</param>
         /// <param name="nextPaneButton">The button that increments the current pane that is associated with this object</param>
         /// <param name="prevPaneButton">The button that decrements the current pane that is associated with this object</param>
-        /// <param name="watchSource">If true, updates the file when it is changed</param>
-        public PanedImage(int startFrame, int itemType, int pixelsPerFrame, BitmapImage bitmapImage, Image imageElement,
+        public PanedImage(int startFrame, MainWindow.ItemType itemType, int pixelsPerFrame, BitmapImage bitmapImage, Image imageElement,
             Button nextPaneButton, Button prevPaneButton)
         {
             PixelsPerFrame = pixelsPerFrame;
@@ -152,7 +152,6 @@ namespace tMLH2
             UpdateSource(ImageHandler.ToBitmapImage(bitmap));
         }
 
-        //[PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public void CheckForSourceUpdate(string fullPath)
         {
             // Create a new FileSystemWatcher and set its properties.
@@ -171,19 +170,11 @@ namespace tMLH2
             Console.WriteLine("PanedImage (2): watcher loaded!");
         }
 
-
-        /*private void ScaleImageElement()
-        {
-            ScaleTransform st = (ScaleTransform)ImageElement.RenderTransform;
-            st.ScaleX = 2;
-            st.ScaleY = 2;
-        }*/
-
         /// <summary>
         /// Changes the ItemType to a new value.
         /// </summary>
         /// <param name="newType">The new type. Refer to MainWidow ItemType enum</param>
-        public void ChangeItemType(int newType)
+        public void ChangeItemType(MainWindow.ItemType newType)
         {
             ItemType = newType;
         }

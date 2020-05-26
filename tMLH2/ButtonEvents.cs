@@ -37,5 +37,11 @@ namespace tMLH2
                 
             }
         }
+
+        private void NewButton_Click(object sender, RoutedEventArgs e)
+        {
+            CreateNewImageWindow imageWindow = new CreateNewImageWindow();
+            imageWindow.ShowDialog();
+        }
     }
 }

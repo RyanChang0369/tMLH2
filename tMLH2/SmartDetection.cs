@@ -18,9 +18,9 @@ namespace tMLH2
         /// Tries to detect the type of object from its file and directory name.
         /// </summary>
         /// <returns>A type from the ItemType enum.</returns>
-        public static int DetectType(string fullPath, BitmapImage bmpImg)
+        public static MainWindow.ItemType DetectType(string fullPath, BitmapImage bmpImg)
         {
-            int selectedOption;
+            MainWindow.ItemType selectedOption;
 
             string imageFileName = Path.GetFileName(fullPath);
             string beforeUnderscore;
@@ -60,15 +60,15 @@ namespace tMLH2
             switch (afterUnderscore)
             {
                 case ("Head"):
-                    return (int)MainWindow.ItemType.Head;
+                    return MainWindow.ItemType.Head;
                 case ("Arms"):
-                    return (int)MainWindow.ItemType.Arms;
+                    return MainWindow.ItemType.Arms;
                 case ("Body"):
-                    return (int)MainWindow.ItemType.Body;
+                    return MainWindow.ItemType.Body;
                 case ("FemaleBody"):
-                    return (int)MainWindow.ItemType.FemaleBody;
+                    return MainWindow.ItemType.FemaleBody;
                 case ("Legs"):
-                    return (int)MainWindow.ItemType.Legs;
+                    return MainWindow.ItemType.Legs;
             }
 
             // Try to get item type from height of image
@@ -80,7 +80,7 @@ namespace tMLH2
                 switch (messageBoxResult)
                 {
                     case MessageBoxResult.Yes:
-                        return (int)MainWindow.ItemType.Armor;
+                        return MainWindow.ItemType.Armor;
                     case MessageBoxResult.No:
                         return UnableToDetectTypeMessage();
                 }
@@ -88,17 +88,17 @@ namespace tMLH2
             return UnableToDetectTypeMessage();
         }
 
-        private static int UnableToDetectTypeMessage()
+        private static MainWindow.ItemType UnableToDetectTypeMessage()
         {
             MessageBox.Show("Cannot detect type of item. Using default item type.",
                     "Warning", MessageBoxButton.OK, MessageBoxImage.Error);
-            return (int)MainWindow.ItemType.Unknown;
+            return MainWindow.ItemType.Unknown;
         }
 
-        private static int DetectByMethodNames(string fileContents, int pixelHeight)
+        private static MainWindow.ItemType DetectByMethodNames(string fileContents, int pixelHeight)
         {
             // Find UseStyle Methods
-            int selectedOption = DetectByUseStyle(fileContents);
+            MainWindow.ItemType selectedOption = DetectByUseStyle(fileContents);
             if (selectedOption > 0)
                 return selectedOption;
 
@@ -112,24 +112,24 @@ namespace tMLH2
             if (selectedOption > 0)
                 return selectedOption;
 
-            return (int)MainWindow.ItemType.Unknown;
+            return MainWindow.ItemType.Unknown;
         }
 
-        private static int DetectByUseStyle(string fileContents)
+        private static MainWindow.ItemType DetectByUseStyle(string fileContents)
         {
             fileContents = fileContents.RemoveSpaces();
             if (fileContents.Contains("item.useStyle=1"))
-                return (int)MainWindow.ItemType.Swing;
+                return MainWindow.ItemType.Swing;
             else if (fileContents.Contains("item.useStyle=2"))
-                return (int)MainWindow.ItemType.Eat;
+                return MainWindow.ItemType.Eat;
             else if (fileContents.Contains("item.useStyle=3"))
-                return (int)MainWindow.ItemType.Stab;
+                return MainWindow.ItemType.Stab;
             else if (fileContents.Contains("item.useStyle=4"))
-                return (int)MainWindow.ItemType.HoldUp;
+                return MainWindow.ItemType.HoldUp;
             else if (fileContents.Contains("item.useStyle=5"))
-                return (int)MainWindow.ItemType.HoldOut;
+                return MainWindow.ItemType.HoldOut;
             else
-                return (int)MainWindow.ItemType.Unknown;
+                return MainWindow.ItemType.Unknown;
         }
 
         /// <summary>
@@ -138,22 +138,22 @@ namespace tMLH2
         /// <param name="fileContents"></param>
         /// <param name="pixelHeight"></param>
         /// <returns></returns>
-        private static int DetectByMethodNames_Armor(string fileContents, int pixelHeight)
+        private static MainWindow.ItemType DetectByMethodNames_Armor(string fileContents, int pixelHeight)
         {
             // Find Armor Methods
             if (pixelHeight == 1120 || pixelHeight == 1118)
             {
                 if (fileContents.Contains("[AutoloadEquip(EquipType.Head)]"))
-                    return (int)MainWindow.ItemType.Head;
+                    return MainWindow.ItemType.Head;
                 else if (fileContents.Contains("[AutoloadEquip(EquipType.Body)]"))
-                    return (int)MainWindow.ItemType.Body;
+                    return MainWindow.ItemType.Body;
                 else if (fileContents.Contains("[AutoloadEquip(EquipType.Legs)]"))
-                    return (int)MainWindow.ItemType.Legs;
+                    return MainWindow.ItemType.Legs;
                 else
-                    return (int)MainWindow.ItemType.Armor;
+                    return MainWindow.ItemType.Armor;
             }
             else
-                return (int)MainWindow.ItemType.Unknown;
+                return MainWindow.ItemType.Unknown;
         }
 
         /// <summary>
@@ -161,12 +161,12 @@ namespace tMLH2
         /// </summary>
         /// <param name="fileContents"></param>
         /// <returns></returns>
-        private static int DetectByMethodNames_Accessory(string fileContents)
+        private static MainWindow.ItemType DetectByMethodNames_Accessory(string fileContents)
         {
             if (fileContents.Contains("public override void UpdateAccessory"))
-                return (int)MainWindow.ItemType.Accessory;
+                return MainWindow.ItemType.Accessory;
             else
-                return (int)MainWindow.ItemType.Unknown;
+                return MainWindow.ItemType.Unknown;
         }
 
         private static string RemoveComments(string fileContents)
@@ -187,7 +187,7 @@ namespace tMLH2
             return Regex.Replace(fileContents, " ", "");
         }
 
-        public static int DetectFrameHeight(int sourceHeight, int itemType)
+        public static int DetectFrameHeight(int sourceHeight, MainWindow.ItemType itemType)
         {
             if (MainWindow.IsArmorLike(itemType))
             {
