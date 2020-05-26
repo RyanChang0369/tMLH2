@@ -24,6 +24,8 @@ namespace tMLH2
 
         public int SelectedIndex = -1;
 
+        public const int MaxPanes = 20;
+
         /// <summary>
         /// The selected BitmapLayer, determined using SelectedIndex.
         /// </summary>
@@ -296,7 +298,7 @@ namespace tMLH2
                 PreviousPaneButton.IsEnabled = false;
             else
                 PreviousPaneButton.IsEnabled = true;
-            if (CurrentFrame >= 19 /*Or however many frames there are - 1*/)
+            if (CurrentFrame >= MaxPanes - 1)
                 NextPaneButton.IsEnabled = false;
             else
                 NextPaneButton.IsEnabled = true;
