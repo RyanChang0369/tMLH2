@@ -66,18 +66,9 @@ namespace tMLH2
             {
                 Bitmap bitmap = new Bitmap(LayeredImage.SelectedBitmapLayer.Source);
 
-                System.Windows.Point mouseLocation = Mouse.GetPosition(ImageControl);
+                System.Drawing.Point drawingPoint = GetMouseLocation();
 
-                double xScale = mouseLocation.X / (ImageControl.ActualWidth / LayeredImage.FramePixelWidth);
-                double yScale = mouseLocation.Y / (ImageControl.ActualHeight / LayeredImage.FramePixelHeight);
-
-                int x = (int)Math.Round(xScale);
-                int y = (int)Math.Round(yScale) + LayeredImage.CurrentFrame * LayeredImage.FramePixelHeight;
-
-                int xCentered = x - (int)Math.Round((double)BrushSize / 2);
-                int yCentered = y - (int)Math.Round((double)BrushSize / 2);
-
-                ColorPicker.SelectedColor = ImageHandler.ToMediaColor(bitmap.GetPixel(xCentered, yCentered));
+                ColorPicker.SelectedColor = ImageHandler.ToMediaColor(bitmap.GetPixel(drawingPoint.X, drawingPoint.Y));
 
                 EyedropperCheckBox.IsChecked = false;
             }
@@ -104,42 +95,15 @@ namespace tMLH2
             {
                 Bitmap bitmap = new Bitmap(LayeredImage.SelectedBitmapLayer.Source);
 
-                System.Windows.Point mouseLocation = Mouse.GetPosition(ImageControl);
-
-                double xScale = 0;
-                double yScale = 0;
-
-                if (LayeredImage.Mode == LayeredImage.DrawingMode.Armor)
-                {
-                    xScale = mouseLocation.X / (ImageControl.ActualWidth / LayeredImage.FramePixelWidth);
-                    yScale = mouseLocation.Y / (ImageControl.ActualHeight / LayeredImage.FramePixelHeight);
-                }
-                else
-                {
-                    try
-                    {
-                        xScale = mouseLocation.X / (ImageControl.ActualWidth / LayeredImage.BitmapLayers[LayersStackPanel.SelectedIndex].Source.Width);
-                        yScale = mouseLocation.Y / (ImageControl.ActualHeight / LayeredImage.BitmapLayers[LayersStackPanel.SelectedIndex].Source.Height);
-                    }
-                    catch (Exception)
-                    {
-                        return;
-                    }
-                }
-
-                int x = (int)Math.Round(xScale);
-                int y = (int)Math.Round(yScale) + LayeredImage.CurrentFrame * LayeredImage.FramePixelHeight;
-
-                int xCentered = x - (int)Math.Round((double)BrushSize / 2);
-                int yCentered = y - (int)Math.Round((double)BrushSize / 2);
+                System.Drawing.Point drawingPoint = GetMouseLocation();
 
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
                     g.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
                     if (IsPainting)
-                        g.FillRectangle(SolidBrushBrush, xCentered, yCentered, BrushSize, BrushSize);
+                        g.FillRectangle(SolidBrushBrush, drawingPoint.X, drawingPoint.Y, BrushSize, BrushSize);
                     else
-                        g.FillRectangle(TransparentBrush, xCentered, yCentered, BrushSize, BrushSize);
+                        g.FillRectangle(TransparentBrush, drawingPoint.X, drawingPoint.Y, BrushSize, BrushSize);
                 }
 
                 LayeredImage.SelectedBitmapLayer.UpdateSource(bitmap);
@@ -155,6 +119,42 @@ namespace tMLH2
             {
                 Console.WriteLine(e);
             }
+        }
+
+        private System.Drawing.Point GetMouseLocation()
+        {
+            System.Windows.Point mouseLocation = Mouse.GetPosition(ImageControl);
+
+            double xScale, yScale;
+            int x, y;
+
+            if (LayeredImage.Mode == LayeredImage.DrawingMode.Armor)
+            {
+                xScale = mouseLocation.X / (ImageControl.ActualWidth / LayeredImage.FramePixelWidth);
+                yScale = mouseLocation.Y / (ImageControl.ActualHeight / LayeredImage.FramePixelHeight);
+                y = (int)Math.Round(yScale) + LayeredImage.CurrentFrame * LayeredImage.FramePixelHeight;
+            }
+            else
+            {
+                try
+                {
+                    xScale = mouseLocation.X / (ImageControl.ActualWidth / LayeredImage.BitmapLayers[LayersStackPanel.SelectedIndex].Source.Width);
+                    yScale = mouseLocation.Y / (ImageControl.ActualHeight / LayeredImage.BitmapLayers[LayersStackPanel.SelectedIndex].Source.Height);
+
+                    y = (int)Math.Round(yScale);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+
+            x = (int)Math.Round(xScale);
+
+            int xCentered = x - (int)Math.Round((double)BrushSize / 2);
+            int yCentered = y - (int)Math.Round((double)BrushSize / 2);
+
+            return new System.Drawing.Point(xCentered, yCentered);
         }
     }
 }
