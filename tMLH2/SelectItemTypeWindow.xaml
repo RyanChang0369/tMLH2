@@ -6,25 +6,26 @@
         xmlns:local="clr-namespace:tMLH2"
         mc:Ignorable="d"
         Title="SelectItemTypeWindow" Height="450" Width="800">
-    <Grid>
+
+    <StackPanel>
         <StackPanel Orientation="Horizontal">
-            <Label Content="Image Style"/>
-            <Image Source="questionMark.png" Style="{StaticResource questionCircle}"/>
+            <Label Content="Image Style" Style="{StaticResource h2}"/>
             <Image Source="infoCircle.png" Style="{StaticResource infoCircle}"
-                           Tag="{Binding Mode=OneTime, Converter={StaticResource EnumConverter}}"
+                           Tag="{Binding Path=ItemType, Mode=OneTime, Converter={StaticResource EnumConverter}}"
                            Loaded="InfoLoaded_EnumDescription"/>
         </StackPanel>
         <ComboBox>
             <ComboBox.ItemsSource>
-                <Binding Mode="OneTime">
+                <Binding Path="ItemType" Mode="OneTime">
                     <Binding.Converter>
                         <local:EnumConverter/>
                     </Binding.Converter>
                 </Binding>
             </ComboBox.ItemsSource>
             <ComboBox.SelectedItem>
-                <Binding Path="StyleOfModel"/>
+                <Binding Path="ItemType"/>
             </ComboBox.SelectedItem>
         </ComboBox>
-    </Grid>
+        <Button Content="Done" Click="Save" Style="{StaticResource submitBtn}"/>
+    </StackPanel>
 </local:EditorInterface>

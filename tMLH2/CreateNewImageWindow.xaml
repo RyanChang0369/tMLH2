@@ -29,6 +29,6 @@
             </TextBox.Text>
         </TextBox>
 
-        <Button Click="Save" Content="Create" Style="{StaticResource Button}" HorizontalAlignment="Left"/>
+        <Button Click="Save" Content="Create" Style="{StaticResource submitBtn}"/>
     </StackPanel>
 </local:EditorInterface>

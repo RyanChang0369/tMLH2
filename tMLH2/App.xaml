@@ -30,7 +30,8 @@
             <Setter Property="Margin" Value="10"/>
             <Setter Property="RenderOptions.BitmapScalingMode" Value="NearestNeighbor"/>
         </Style>
-        
+
+
         <!--Generic FrameworkElement Styles-->
         <Style x:Key="default" TargetType="{x:Type FrameworkElement}">
             <Setter Property="Margin" Value="10"/>
@@ -83,6 +84,12 @@
             <Setter Property="MinHeight" Value="40"/>
         </Style>
 
+        <Style x:Key="submitBtn" TargetType="Button" BasedOn="{StaticResource Button}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="MinWidth" Value="200"/>
+            <Setter Property="Margin" Value="25"/>
+        </Style>
+        
         <!--TextBox and TextBlock Styles-->
         <Style TargetType="TextBox" x:Key="defaultTextBox">
             <Setter Property="FontSize" Value="18"/>
@@ -113,6 +120,16 @@
             <Setter Property="MinHeight" Value="100"/>
         </Style>
 
+        <!--ComboBox Styles-->
+        <Style TargetType="ComboBox" x:Key="defaultComboBox">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="10, 0"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="MinWidth" Value="400"/>
+        </Style>
+
+        <Style TargetType="ComboBox" BasedOn="{StaticResource defaultComboBox}"/>
+        
         <!--Image Styles-->
         <Style TargetType="Image">
             <Setter Property="RenderOptions.BitmapScalingMode" Value="NearestNeighbor"/>
@@ -145,7 +162,15 @@
             <Setter Property="Height" Value="20"/>
             <Setter Property="Margin" Value="5"/>
         </Style>
-        
+
+        <Style TargetType="Image" x:Key="questionCircle" BasedOn="{StaticResource circleImg}">
+            <Setter Property="Cursor" Value="Help"/>
+        </Style>
+
+        <Style TargetType="Image" x:Key="infoCircle" BasedOn="{StaticResource circleImg}">
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
         <!--Validation Templates and Styles-->
         <ControlTemplate x:Key="validationTemplate">
             <DockPanel>
@@ -163,5 +188,8 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <!--Converter Resources-->
+        <local:EnumConverter x:Key="EnumConverter"/>
     </Application.Resources>
 </Application>

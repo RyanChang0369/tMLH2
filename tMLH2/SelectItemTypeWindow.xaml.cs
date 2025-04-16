@@ -25,7 +25,7 @@ namespace tMLH2
         {
             InitializeComponent();
             UpdateComponent();
-            DataContext = ItemType;
+            DataContext = this;
         }
 
         protected override void AddRequiredControls()

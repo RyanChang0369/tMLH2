@@ -8,12 +8,12 @@ namespace tMLH2
     {
         private void UploadButton_Click(object sender, RoutedEventArgs e)
         {
-            FileDialog dialog = new FileDialog(FileDialog.DialogOptions.Open);
+            FileDialog dialog = new FileDialog(FileDialog.DialogOptions.OpenMultiple);
 
-            if (dialog.OpenPaths == null)
+            if (dialog.MutliplePaths == null)
                 return;
 
-            foreach (string path in dialog.OpenPaths)
+            foreach (string path in dialog.MutliplePaths)
                 LayeredImage.Push(path);
 
             InitiateLayersStackPanel();
@@ -25,12 +25,12 @@ namespace tMLH2
         {
             FileDialog dialog = new FileDialog(FileDialog.DialogOptions.Save);
 
-            if (dialog.SavePath == null)
+            if (dialog.SinglePath == null)
                 return;
 
             try
             {
-                ImageHandler.WriteBitmap(dialog.SavePath, LayeredImage.SelectedBitmapLayer.Source);
+                ImageHandler.WriteBitmap(dialog.SinglePath, LayeredImage.SelectedBitmapLayer.Source);
                 MessageBox.Show("Image saved!");
             }
             catch (ArgumentOutOfRangeException)
@@ -45,6 +45,12 @@ namespace tMLH2
             itemTypeWindow.ShowDialog();
             ItemType itemType = itemTypeWindow.ItemType;
 
+            if (itemType == ItemType.Static)
+            {
+                MessageBox.Show("Cannot set type of item as static.");
+                return;
+            }
+
             Bitmap bitmap;
 
             if (IsArmorLike(itemType))
@@ -58,11 +64,13 @@ namespace tMLH2
 
             FileDialog fileDialog = new FileDialog(FileDialog.DialogOptions.Save);
 
-            if (fileDialog.SavePath == null)
+            if (fileDialog.SinglePath == null)
                 return;
 
-            LayeredImage.Push(bitmap, itemType, fileDialog.SavePath, true);
+            LayeredImage.Push(bitmap, itemType, fileDialog.SinglePath, true);
             InitiateLayersStackPanel();
+
+            SaveButton.IsEnabled = true;
         }
     }
 }

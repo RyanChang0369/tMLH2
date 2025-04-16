@@ -11,28 +11,37 @@ namespace tMLH2
         public enum DialogOptions
         {
             Save = 1,
-            Open = 2
+            OpenSingle = 2,
+            OpenMultiple = 3
         }
-        public string SavePath;
-        public string[] OpenPaths;
+        public string SinglePath;
+        public string[] MutliplePaths;
 
         public FileDialog(DialogOptions dialogOption)
         {
             switch (dialogOption)
             {
-                case DialogOptions.Open:
+                case DialogOptions.OpenMultiple:
                     OpenFileDialog openFileDialog = new OpenFileDialog();
                     openFileDialog.Multiselect = true;
                     if (openFileDialog.ShowDialog() == true)
                     {
-                        OpenPaths = openFileDialog.FileNames;
+                        MutliplePaths = openFileDialog.FileNames;
                     }
                     break;
                 case DialogOptions.Save:
                     SaveFileDialog saveFileDialog = new SaveFileDialog();
                     if (saveFileDialog.ShowDialog() == true)
                     {
-                        SavePath = saveFileDialog.FileName;
+                        SinglePath = saveFileDialog.FileName;
+                    }
+                    break;
+                case DialogOptions.OpenSingle:
+                    OpenFileDialog openFileDialog1 = new OpenFileDialog();
+                    openFileDialog1.Multiselect = false;
+                    if (openFileDialog1.ShowDialog() == true)
+                    {
+                        SinglePath = openFileDialog1.FileName;
                     }
                     break;
             }

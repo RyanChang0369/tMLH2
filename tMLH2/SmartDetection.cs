@@ -64,7 +64,7 @@ namespace tMLH2
                 case ("Arms"):
                     return MainWindow.ItemType.Arms;
                 case ("Body"):
-                    return MainWindow.ItemType.Body;
+                    return MainWindow.ItemType.MaleBody;
                 case ("FemaleBody"):
                     return MainWindow.ItemType.FemaleBody;
                 case ("Legs"):
@@ -146,7 +146,7 @@ namespace tMLH2
                 if (fileContents.Contains("[AutoloadEquip(EquipType.Head)]"))
                     return MainWindow.ItemType.Head;
                 else if (fileContents.Contains("[AutoloadEquip(EquipType.Body)]"))
-                    return MainWindow.ItemType.Body;
+                    return MainWindow.ItemType.MaleBody;
                 else if (fileContents.Contains("[AutoloadEquip(EquipType.Legs)]"))
                     return MainWindow.ItemType.Legs;
                 else
